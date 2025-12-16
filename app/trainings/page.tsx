@@ -1,82 +1,95 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent } from "@/components/ui/card"
-import { useToast } from "@/hooks/use-toast"
-import { Plus, Play, Loader2 } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { auth } from "@/lib/firebase";
+import { Plus, Play, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface TrainingListItem {
-  name: string
-  word_count?: number
-  last_modified?: number
-  error?: string
+  name: string;
+  word_count?: number;
+  last_modified?: number;
+  error?: string;
 }
 
 interface Training {
-  name: string
-  fileIndexes: number[]
-  createdAt: string
-  numUniqueWords?: number
-  totalItems?: number
-  wordCount?: number
-  lastModified?: number
+  name: string;
+  fileIndexes: number[];
+  createdAt: string;
+  numUniqueWords?: number;
+  totalItems?: number;
+  wordCount?: number;
+  lastModified?: number;
 }
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://word-psicho-server.onrender.com"
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "https://word-psicho-server.onrender.com";
 
 export default function TrainingsPage() {
-  const [trainings, setTrainings] = useState<Training[]>([])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [isCreating, setIsCreating] = useState(false)
-  const [isLoading, setIsLoading] = useState<string | null>(null)
-  const [trainingName, setTrainingName] = useState("")
-  const [selectedFileIndexes, setSelectedFileIndexes] = useState<number[]>([])
-  const { toast } = useToast()
-  const router = useRouter()
+  const [trainings, setTrainings] = useState<Training[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isLoading, setIsLoading] = useState<string | null>(null);
+  const [trainingName, setTrainingName] = useState("");
+  const [selectedFileIndexes, setSelectedFileIndexes] = useState<number[]>([]);
+  const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
-    loadExistingTrainings()
-  }, [])
+    loadExistingTrainings();
+  }, []);
 
   const loadExistingTrainings = async () => {
     try {
-      console.log("[v0] Fetching trainings from proxy API")
+      console.log("[v0] Fetching trainings from proxy API");
 
       const response = await fetch("/api/proxy/list_trainings", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-      })
+      });
 
-      console.log("[v0] Response status:", response.status)
-      const data = await response.json()
-      console.log("[v0] Response data:", data)
+      console.log("[v0] Response status:", response.status);
+      const data = await response.json();
+      console.log("[v0] Response data:", data);
 
       if (!response.ok) {
-        console.error("Failed to load trainings:", data.error)
-        return
+        console.error("Failed to load trainings:", data.error);
+        return;
       }
 
       if (data.trainings && data.trainings.length > 0) {
-        const formattedTrainings: Training[] = data.trainings.map((t: TrainingListItem) => ({
-          name: t.name,
-          fileIndexes: [],
-          createdAt: t.last_modified ? new Date(t.last_modified * 1000).toISOString() : new Date().toISOString(),
-          wordCount: t.word_count,
-          lastModified: t.last_modified,
-        }))
-        setTrainings(formattedTrainings)
+        const formattedTrainings: Training[] = data.trainings.map(
+          (t: TrainingListItem) => ({
+            name: t.name,
+            fileIndexes: [],
+            createdAt: t.last_modified
+              ? new Date(t.last_modified * 1000).toISOString()
+              : new Date().toISOString(),
+            wordCount: t.word_count,
+            lastModified: t.last_modified,
+          })
+        );
+        setTrainings(formattedTrainings);
       }
     } catch (error) {
-      console.error("Error loading trainings:", error)
+      console.error("Error loading trainings:", error);
     }
-  }
+  };
 
   const handleCreateTraining = async () => {
     if (!trainingName.trim()) {
@@ -84,8 +97,8 @@ export default function TrainingsPage() {
         title: "שגיאה",
         description: "נא להזין שם לאימון",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     if (selectedFileIndexes.length === 0) {
@@ -93,25 +106,32 @@ export default function TrainingsPage() {
         title: "שגיאה",
         description: "נא לבחור לפחות יחידה אחת",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
-    setIsCreating(true)
+    setIsCreating(true);
 
     try {
+      const userUid = auth?.currentUser?.uid;
+      if (!userUid) {
+        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
+      }
+
       const response = await fetch("/api/proxy/create_training", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          user_uid: userUid,
           training_name: trainingName,
           file_indexes: selectedFileIndexes,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
-      if (!response.ok) throw new Error(data.error || "Failed to create training")
+      if (!response.ok)
+        throw new Error(data.error || "Failed to create training");
 
       const newTraining: Training = {
         name: trainingName,
@@ -121,79 +141,94 @@ export default function TrainingsPage() {
         totalItems: data.total_items_in_sequence,
         wordCount: data.word_count,
         lastModified: data.last_modified,
-      }
+      };
 
-      setTrainings([newTraining, ...trainings])
-      setIsDialogOpen(false)
-      setTrainingName("")
-      setSelectedFileIndexes([])
+      setTrainings([newTraining, ...trainings]);
+      setIsDialogOpen(false);
+      setTrainingName("");
+      setSelectedFileIndexes([]);
 
       toast({
         title: "✓ האימון נוצר בהצלחה",
         description: `${data.num_unique_words} מילים ייחודיות, ${data.total_items_in_sequence} פריטים לתרגול`,
         className: "bg-success text-success-foreground",
-      })
+      });
 
       setTimeout(() => {
         if (confirm("האימון נוצר בהצלחה! האם ברצונך להתחיל עכשיו?")) {
-          handleLoadTraining(trainingName)
+          handleLoadTraining(trainingName);
         } else {
-          loadExistingTrainings()
+          loadExistingTrainings();
         }
-      }, 500)
+      }, 500);
     } catch (error) {
       toast({
         title: "שגיאה ביצירת אימון",
-        description: error instanceof Error ? error.message : "לא ניתן ליצור אימון כרגע",
+        description:
+          error instanceof Error ? error.message : "לא ניתן ליצור אימון כרגע",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsCreating(false)
+      setIsCreating(false);
     }
-  }
+  };
 
   const handleLoadTraining = async (trainingName: string) => {
-    setIsLoading(trainingName)
+    setIsLoading(trainingName);
 
     try {
+      const userUid = auth?.currentUser?.uid;
+      if (!userUid) {
+        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
+      }
+
       const response = await fetch(`${BACKEND_URL}/load_training`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ training_name: trainingName }),
-      })
+        body: JSON.stringify({
+          user_uid: userUid,
+          training_name: trainingName,
+        }),
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
-      if (!response.ok) throw new Error(data.error || "Failed to load training")
+      if (!response.ok)
+        throw new Error(data.error || "Failed to load training");
 
-      localStorage.setItem("currentTrainingName", trainingName)
+      localStorage.setItem("currentTrainingName", trainingName);
 
       toast({
         title: "✓ האימון נטען בהצלחה",
         description: "מתחיל את האימון...",
         className: "bg-success text-success-foreground",
-      })
+      });
 
       setTimeout(() => {
-        router.push("/training")
-      }, 500)
+        router.push("/training");
+      }, 500);
     } catch (error) {
       toast({
         title: "שגיאה בטעינת אימון",
-        description: error instanceof Error ? error.message : "לא ניתן לטעון את האימון",
+        description:
+          error instanceof Error ? error.message : "לא ניתן לטעון את האימון",
         variant: "destructive",
-      })
-      setIsLoading(null)
+      });
+      setIsLoading(null);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-secondary p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
         {/* Header */}
         <div className="text-center space-y-2 py-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground">אימונים שלי</h1>
-          <p className="text-muted-foreground">צור אימון חדש או המשך אימון קיים</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+            אימונים שלי
+          </h1>
+          <p className="text-muted-foreground">
+            צור אימון חדש או המשך אימון קיים
+          </p>
         </div>
 
         <Button
@@ -217,7 +252,9 @@ export default function TrainingsPage() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-md animate-scale-in" dir="rtl">
             <DialogHeader>
-              <DialogTitle className="text-2xl text-center">אימון חדש</DialogTitle>
+              <DialogTitle className="text-2xl text-center">
+                אימון חדש
+              </DialogTitle>
             </DialogHeader>
             <div className="space-y-6 py-4">
               <div className="space-y-2">
@@ -247,9 +284,14 @@ export default function TrainingsPage() {
                         checked={selectedFileIndexes.includes(num)}
                         onChange={(e) => {
                           if (e.target.checked) {
-                            setSelectedFileIndexes([...selectedFileIndexes, num])
+                            setSelectedFileIndexes([
+                              ...selectedFileIndexes,
+                              num,
+                            ]);
                           } else {
-                            setSelectedFileIndexes(selectedFileIndexes.filter((f) => f !== num))
+                            setSelectedFileIndexes(
+                              selectedFileIndexes.filter((f) => f !== num)
+                            );
                           }
                         }}
                         className="w-4 h-4"
@@ -281,18 +323,27 @@ export default function TrainingsPage() {
         {/* Previous Trainings */}
         {trainings.length > 0 && (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-foreground">אימונים קודמים</h2>
+            <h2 className="text-xl font-semibold text-foreground">
+              אימונים קודמים
+            </h2>
             <div className="grid gap-4">
               {trainings.map((training) => (
-                <Card key={training.name} className="overflow-hidden hover:shadow-lg transition-shadow">
+                <Card
+                  key={training.name}
+                  className="overflow-hidden hover:shadow-lg transition-shadow"
+                >
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex-1 space-y-1">
-                        <h3 className="font-semibold text-lg text-foreground">{training.name}</h3>
+                        <h3 className="font-semibold text-lg text-foreground">
+                          {training.name}
+                        </h3>
                         <p className="text-sm text-muted-foreground">
                           {training.wordCount && `${training.wordCount} מילים`}
                           {training.lastModified &&
-                            ` • ${new Date(training.lastModified * 1000).toLocaleDateString("he-IL")}`}
+                            ` • ${new Date(
+                              training.lastModified * 1000
+                            ).toLocaleDateString("he-IL")}`}
                         </p>
                       </div>
                       <Button
@@ -319,10 +370,12 @@ export default function TrainingsPage() {
 
         {trainings.length === 0 && (
           <Card className="p-12 text-center">
-            <p className="text-muted-foreground">עדיין אין אימונים. צור אימון חדש כדי להתחיל!</p>
+            <p className="text-muted-foreground">
+              עדיין אין אימונים. צור אימון חדש כדי להתחיל!
+            </p>
           </Card>
         )}
       </div>
     </div>
-  )
+  );
 }

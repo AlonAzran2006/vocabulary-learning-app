@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { auth } from "@/lib/firebase"
 
 interface Word {
   id: string
@@ -40,10 +41,15 @@ export default function MemorizeUnitPage() {
       setLoading(true)
 
       console.log("[v0] Loading unit:", unit)
+      const userUid = auth?.currentUser?.uid
+      if (!userUid) {
+        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.")
+      }
+
       const response = await fetch("/api/proxy/memorize_unit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ file_index: unit }),
+        body: JSON.stringify({ user_uid: userUid, file_index: unit }),
       })
 
       if (!response.ok) {
@@ -73,10 +79,14 @@ export default function MemorizeUnitPage() {
   const updateWordGrade = async (wordId: string, newGrade: number) => {
     try {
       console.log("[v0] Updating word grade:", { wordId, newGrade })
+      const userUid = auth?.currentUser?.uid
+      if (!userUid) {
+        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.")
+      }
       const response = await fetch("/api/proxy/memorization_update_word", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ word_id: wordId, new_grade: newGrade }),
+        body: JSON.stringify({ user_uid: userUid, word_id: wordId, new_grade: newGrade }),
       })
 
       if (!response.ok) {

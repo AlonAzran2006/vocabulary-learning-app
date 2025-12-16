@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Loader2, Eye, Sparkles, ArrowRight, Home } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Confetti from "react-confetti"
+import { auth } from "@/lib/firebase"
 
 interface Word {
   id: string
@@ -51,10 +52,15 @@ export default function TrainingPage() {
     try {
       console.log("[v0] Initializing training:", trainingName)
 
+      const userUid = auth?.currentUser?.uid
+      if (!userUid) {
+        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.")
+      }
+
       const response = await fetch("/api/proxy/load_training", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ training_name: trainingName }),
+        body: JSON.stringify({ user_uid: userUid, training_name: trainingName }),
       })
 
       console.log("[v0] Load training response status:", response.status)
@@ -101,10 +107,16 @@ export default function TrainingPage() {
     try {
       console.log("[v0] Submitting grade:", { word_id: currentWord.id, grade: selectedGrade })
 
+      const userUid = auth?.currentUser?.uid
+      if (!userUid) {
+        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.")
+      }
+
       const response = await fetch("/api/proxy/update_knowing_grade", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          user_uid: userUid,
           file_index: currentWord.file_index,
           word_id: currentWord.id,
           test_grade: selectedGrade,
