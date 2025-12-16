@@ -277,7 +277,7 @@ export default function MemorizeUnitPage() {
             variant={activeFilters.has("known") ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFilter("known")}
-            className="rounded-lg border-2 border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-950 data-[state=active]:bg-green-500 data-[state=active]:text-white data-[state=active]:border-green-600"
+            className="rounded-lg border-4 border-green-700 ring-2 ring-green-300 text-green-700 font-semibold hover:bg-green-50 dark:hover:bg-green-950 data-[state=active]:bg-green-600 data-[state=active]:text-white data-[state=active]:border-green-800 data-[state=active]:ring-green-400"
             data-state={activeFilters.has("known") ? "active" : "inactive"}
           >
             יודע ({getFilterCount("known")})
@@ -286,7 +286,7 @@ export default function MemorizeUnitPage() {
             variant={activeFilters.has("partial") ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFilter("partial")}
-            className="rounded-lg border-2 border-yellow-600 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-950 data-[state=active]:bg-yellow-500 data-[state=active]:text-white data-[state=active]:border-yellow-600"
+            className="rounded-lg border-4 border-yellow-700 ring-2 ring-yellow-300 text-yellow-700 font-semibold hover:bg-yellow-50 dark:hover:bg-yellow-950 data-[state=active]:bg-yellow-600 data-[state=active]:text-white data-[state=active]:border-yellow-800 data-[state=active]:ring-yellow-400"
             data-state={activeFilters.has("partial") ? "active" : "inactive"}
           >
             בערך ({getFilterCount("partial")})
@@ -295,7 +295,7 @@ export default function MemorizeUnitPage() {
             variant={activeFilters.has("unknown") ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFilter("unknown")}
-            className="rounded-lg border-2 border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-950 data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:border-red-600"
+            className="rounded-lg border-4 border-red-700 ring-2 ring-red-300 text-red-700 font-semibold hover:bg-red-50 dark:hover:bg-red-950 data-[state=active]:bg-red-600 data-[state=active]:text-white data-[state=active]:border-red-800 data-[state=active]:ring-red-400"
             data-state={activeFilters.has("unknown") ? "active" : "inactive"}
           >
             לא יודע ({getFilterCount("unknown")})
@@ -304,7 +304,7 @@ export default function MemorizeUnitPage() {
             variant={activeFilters.has("unclassified") ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFilter("unclassified")}
-            className="rounded-lg border-2 border-gray-600 text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-950 data-[state=active]:bg-gray-500 data-[state=active]:text-white data-[state=active]:border-gray-600"
+            className="rounded-lg border-4 border-gray-700 ring-2 ring-gray-300 text-gray-700 font-semibold hover:bg-gray-50 dark:hover:bg-gray-950 data-[state=active]:bg-gray-600 data-[state=active]:text-white data-[state=active]:border-gray-800 data-[state=active]:ring-gray-400"
             data-state={
               activeFilters.has("unclassified") ? "active" : "inactive"
             }
