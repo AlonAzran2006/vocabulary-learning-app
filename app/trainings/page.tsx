@@ -224,7 +224,7 @@ export default function TrainingsPage() {
         {/* Header */}
         <div className="text-center space-y-2 py-6">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-            אימונים שלי
+            האימונים שלי
           </h1>
           <p className="text-muted-foreground">
             צור אימון חדש או המשך אימון קיים
