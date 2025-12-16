@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server"
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://word-psicho-server.onrender.com"
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL || "http://word-psicho-server.onrender.com"
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const response = await fetch(`${BACKEND_URL}/list_trainings`, {
+    const url = new URL(request.url)
+
+    const response = await fetch(`${BACKEND_URL}/list_trainings${url.search}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

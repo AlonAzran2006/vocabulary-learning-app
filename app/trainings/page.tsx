@@ -56,12 +56,21 @@ export default function TrainingsPage() {
     try {
       console.log("[v0] Fetching trainings from proxy API");
 
-      const response = await fetch("/api/proxy/list_trainings", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const userUid = auth?.currentUser?.uid;
+      if (!userUid) {
+        console.error("[v0] Cannot load trainings: no authenticated user");
+        return;
+      }
+
+      const response = await fetch(
+        `/api/proxy/list_trainings?user_uid=${encodeURIComponent(userUid)}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       console.log("[v0] Response status:", response.status);
       const data = await response.json();
