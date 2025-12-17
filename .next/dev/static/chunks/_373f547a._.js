@@ -602,7 +602,7 @@ function AuthProvider({ children }) {
                 title: "מצב פיתוח",
                 description: "משתמש דמה מופעל"
             });
-            router.push("/trainings");
+            router.push("/");
             return;
         }
         //TURBOPACK unreachable

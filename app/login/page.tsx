@@ -21,9 +21,9 @@ export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // If user is already logged in, redirect to trainings
+    // If user is already logged in, redirect to home page
     if (user && !loading) {
-      router.push("/trainings");
+      router.push("/");
     }
   }, [user, loading, router]);
 

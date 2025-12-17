@@ -96,7 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             title: "התחברת בהצלחה!",
             description: `ברוך הבא, ${user.displayName || user.email}`,
           });
-          router.push("/trainings");
+          router.push("/");
         }
       })
       .catch((error) => {
@@ -119,7 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         title: "מצב פיתוח",
         description: "משתמש דמה מופעל",
       });
-      router.push("/trainings");
+      router.push("/");
       return;
     }
 
@@ -153,7 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           description: `ברוך הבא, ${user.displayName || user.email}`,
         });
 
-        router.push("/trainings");
+        router.push("/");
         return;
       } catch (error: any) {
         // If popup is blocked, fallback to redirect
