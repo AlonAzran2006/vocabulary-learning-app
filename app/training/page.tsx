@@ -1,96 +1,103 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { useToast } from "@/hooks/use-toast"
-import { Loader2, Eye, Sparkles, ArrowRight, Home } from "lucide-react"
-import { useRouter } from "next/navigation"
-import Confetti from "react-confetti"
-import { auth } from "@/lib/firebase"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/auth-context";
+import { Loader2, Eye, Sparkles, ArrowRight, Home } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Confetti from "react-confetti";
 
 interface Word {
-  id: string
-  word: string
-  meaning: string
-  file_index: number
+  id: string;
+  word: string;
+  meaning: string;
+  file_index: number;
 }
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://word-psicho-server.onrender.com"
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "https://word-psicho-server.onrender.com";
 
 export default function TrainingPage() {
-  const [currentWord, setCurrentWord] = useState<Word | null>(null)
-  const [showMeaning, setShowMeaning] = useState(false)
-  const [selectedGrade, setSelectedGrade] = useState<number | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [queueRemaining, setQueueRemaining] = useState<number>(0)
-  const [isCompleted, setIsCompleted] = useState(false)
-  const [showConfetti, setShowConfetti] = useState(false)
-  const [totalWords, setTotalWords] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-  const { toast } = useToast()
-  const router = useRouter()
+  const [currentWord, setCurrentWord] = useState<Word | null>(null);
+  const [showMeaning, setShowMeaning] = useState(false);
+  const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [queueRemaining, setQueueRemaining] = useState<number>(0);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [totalWords, setTotalWords] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
+  const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
-    initializeTraining()
-  }, [])
+    initializeTraining();
+  }, []);
 
   const initializeTraining = async () => {
-    const trainingName = localStorage.getItem("currentTrainingName")
+    const trainingName = localStorage.getItem("currentTrainingName");
     if (!trainingName) {
       toast({
         title: "שגיאה",
         description: "לא נמצא אימון פעיל",
         variant: "destructive",
-      })
-      router.push("/trainings")
-      return
+      });
+      router.push("/trainings");
+      return;
     }
 
     try {
-      console.log("[v0] Initializing training:", trainingName)
+      console.log("[v0] Initializing training:", trainingName);
 
-      const userUid = auth?.currentUser?.uid
+      const userUid = user?.uid;
       if (!userUid) {
-        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.")
+        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
       }
 
       const response = await fetch("/api/proxy/load_training", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_uid: userUid, training_name: trainingName }),
-      })
+        body: JSON.stringify({
+          user_uid: userUid,
+          training_name: trainingName,
+        }),
+      });
 
-      console.log("[v0] Load training response status:", response.status)
-      const data = await response.json()
-      console.log("[v0] Load training data:", data)
+      console.log("[v0] Load training response status:", response.status);
+      const data = await response.json();
+      console.log("[v0] Load training data:", data);
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to load training")
+        throw new Error(data.error || "Failed to load training");
       }
 
       if (data.training_complete) {
-        setIsCompleted(true)
-        setShowConfetti(true)
-        setTimeout(() => setShowConfetti(false), 5000)
+        setIsCompleted(true);
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 5000);
       } else {
-        setCurrentWord(data.first_word)
-        setQueueRemaining(data.queue_size_remaining)
+        setCurrentWord(data.first_word);
+        setQueueRemaining(data.queue_size_remaining);
       }
     } catch (error) {
-      console.error("Error initializing training:", error)
+      console.error("Error initializing training:", error);
       toast({
         title: "שגיאה",
-        description: error instanceof Error ? error.message : "לא ניתן לטעון את האימון",
+        description:
+          error instanceof Error ? error.message : "לא ניתן לטעון את האימון",
         variant: "destructive",
-      })
-      router.push("/trainings")
+      });
+      router.push("/trainings");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleSubmit = async () => {
     if (selectedGrade === null || !currentWord) {
@@ -98,18 +105,21 @@ export default function TrainingPage() {
         title: "בחר רמת ידע",
         description: "נא לבחור אחת מהאפשרויות",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
-      console.log("[v0] Submitting grade:", { word_id: currentWord.id, grade: selectedGrade })
+      console.log("[v0] Submitting grade:", {
+        word_id: currentWord.id,
+        grade: selectedGrade,
+      });
 
-      const userUid = auth?.currentUser?.uid
+      const userUid = user?.uid;
       if (!userUid) {
-        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.")
+        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
       }
 
       const response = await fetch("/api/proxy/update_knowing_grade", {
@@ -121,54 +131,55 @@ export default function TrainingPage() {
           word_id: currentWord.id,
           test_grade: selectedGrade,
         }),
-      })
+      });
 
-      console.log("[v0] Update grade response status:", response.status)
-      const data = await response.json()
-      console.log("[v0] Update grade data:", data)
+      console.log("[v0] Update grade response status:", response.status);
+      const data = await response.json();
+      console.log("[v0] Update grade data:", data);
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to update grade")
+        throw new Error(data.error || "Failed to update grade");
       }
 
-      setTotalWords((prev) => prev + 1)
+      setTotalWords((prev) => prev + 1);
 
       toast({
         title: "✓ נשמר",
         description: "עובר למילה הבאה...",
         className: "bg-success text-success-foreground",
-      })
+      });
 
       setTimeout(() => {
         if (data.training_complete) {
-          setIsCompleted(true)
-          setShowConfetti(true)
-          setTimeout(() => setShowConfetti(false), 5000)
+          setIsCompleted(true);
+          setShowConfetti(true);
+          setTimeout(() => setShowConfetti(false), 5000);
         } else {
-          setCurrentWord(data.next_word)
-          setShowMeaning(false)
-          setSelectedGrade(null)
-          setQueueRemaining(data.next_word ? queueRemaining - 1 : 0)
+          setCurrentWord(data.next_word);
+          setShowMeaning(false);
+          setSelectedGrade(null);
+          setQueueRemaining(data.next_word ? queueRemaining - 1 : 0);
         }
-      }, 300)
+      }, 300);
     } catch (error) {
-      console.error("Error submitting grade:", error)
+      console.error("Error submitting grade:", error);
       toast({
         title: "שגיאה",
-        description: error instanceof Error ? error.message : "לא ניתן לשמור את הציון",
+        description:
+          error instanceof Error ? error.message : "לא ניתן לשמור את הציון",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
-    )
+    );
   }
 
   if (isCompleted) {
@@ -179,7 +190,9 @@ export default function TrainingPage() {
           <CardContent className="p-12 text-center space-y-6">
             <div className="text-6xl">🎉</div>
             <h1 className="text-3xl font-bold text-foreground">כל הכבוד!</h1>
-            <p className="text-lg text-muted-foreground">סיימת את האימון בהצלחה</p>
+            <p className="text-lg text-muted-foreground">
+              סיימת את האימון בהצלחה
+            </p>
             <div className="p-6 bg-secondary rounded-xl">
               <p className="text-2xl font-bold text-primary">{totalWords}</p>
               <p className="text-sm text-muted-foreground">מילים תורגלו</p>
@@ -203,7 +216,7 @@ export default function TrainingPage() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   if (!currentWord) {
@@ -211,7 +224,7 @@ export default function TrainingPage() {
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
-    )
+    );
   }
 
   return (
@@ -240,12 +253,19 @@ export default function TrainingPage() {
         {/* Progress */}
         <div className="text-center space-y-2">
           <p className="text-sm text-muted-foreground">
-            נותרו בתור: <span className="font-bold text-primary">{queueRemaining}</span>
+            נותרו בתור:{" "}
+            <span className="font-bold text-primary">{queueRemaining}</span>
           </p>
           <div className="w-full bg-secondary rounded-full h-2">
             <div
               className="bg-primary h-2 rounded-full transition-all duration-300"
-              style={{ width: `${queueRemaining > 0 ? (totalWords / (totalWords + queueRemaining)) * 100 : 100}%` }}
+              style={{
+                width: `${
+                  queueRemaining > 0
+                    ? (totalWords / (totalWords + queueRemaining)) * 100
+                    : 100
+                }%`,
+              }}
             />
           </div>
         </div>
@@ -255,7 +275,9 @@ export default function TrainingPage() {
           <CardContent className="p-8 md:p-12 space-y-8">
             {/* English Word */}
             <div className="text-center space-y-4">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground animate-scale-in">{currentWord.word}</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground animate-scale-in">
+                {currentWord.word}
+              </h2>
 
               {!showMeaning ? (
                 <Button
@@ -268,7 +290,9 @@ export default function TrainingPage() {
                 </Button>
               ) : (
                 <div className="p-6 rounded-xl animate-fade-in">
-                  <p className="text-2xl font-semibold text-foreground">{currentWord.meaning}</p>
+                  <p className="text-2xl font-semibold text-foreground">
+                    {currentWord.meaning}
+                  </p>
                 </div>
               )}
             </div>
@@ -276,7 +300,9 @@ export default function TrainingPage() {
             {/* Grade Selection */}
             <div className="space-y-4">
               {/* Label component is imported but not used here, it can be used as needed */}
-              <div className="text-center block text-base font-medium">עד כמה אתה מכיר את המילה?</div>
+              <div className="text-center block text-base font-medium">
+                עד כמה אתה מכיר את המילה?
+              </div>
               <div className="grid grid-cols-3 gap-3">
                 <Button
                   onClick={() => setSelectedGrade(-1)}
@@ -333,14 +359,18 @@ export default function TrainingPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
 
 // Label component is imported but not used here, it can be used as needed
-function Label({ children, className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
+function Label({
+  children,
+  className,
+  ...props
+}: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label className={className} {...props}>
       {children}
     </label>
-  )
+  );
 }

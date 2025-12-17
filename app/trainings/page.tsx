@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { auth } from "@/lib/firebase";
+import { useAuth } from "@/contexts/auth-context";
 import { Plus, Play, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -47,6 +47,7 @@ export default function TrainingsPage() {
   const [selectedFileIndexes, setSelectedFileIndexes] = useState<number[]>([]);
   const { toast } = useToast();
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     loadExistingTrainings();
@@ -56,7 +57,7 @@ export default function TrainingsPage() {
     try {
       console.log("[v0] Fetching trainings from proxy API");
 
-      const userUid = auth?.currentUser?.uid;
+      const userUid = user?.uid;
       if (!userUid) {
         console.error("[v0] Cannot load trainings: no authenticated user");
         return;
@@ -122,7 +123,7 @@ export default function TrainingsPage() {
     setIsCreating(true);
 
     try {
-      const userUid = auth?.currentUser?.uid;
+      const userUid = user?.uid;
       if (!userUid) {
         throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
       }
@@ -186,7 +187,7 @@ export default function TrainingsPage() {
     setIsLoading(trainingName);
 
     try {
-      const userUid = auth?.currentUser?.uid;
+      const userUid = user?.uid;
       if (!userUid) {
         throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
       }

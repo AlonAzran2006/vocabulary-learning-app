@@ -1,0 +1,20 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/create_training/route": "/api/create_training",
+  "/api/list_trainings/route": "/api/list_trainings",
+  "/api/load_training/route": "/api/load_training",
+  "/api/proxy/create_training/route": "/api/proxy/create_training",
+  "/api/proxy/list_trainings/route": "/api/proxy/list_trainings",
+  "/api/proxy/load_training/route": "/api/proxy/load_training",
+  "/api/proxy/memorization_update_word/route": "/api/proxy/memorization_update_word",
+  "/api/proxy/memorize_unit/route": "/api/proxy/memorize_unit",
+  "/api/proxy/update_knowing_grade/route": "/api/proxy/update_knowing_grade",
+  "/api/update_knowing_grade/route": "/api/update_knowing_grade",
+  "/login/page": "/login",
+  "/memorize/[unit]/page": "/memorize/[unit]",
+  "/memorize/page": "/memorize",
+  "/page": "/",
+  "/training/page": "/training",
+  "/trainings/page": "/trainings"
+}

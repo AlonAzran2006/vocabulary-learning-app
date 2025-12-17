@@ -2,13 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Home, ChevronRight, ChevronLeft } from "lucide-react";
+import {
+  Home,
+  ChevronRight,
+  ChevronLeft,
+  CheckCircle2,
+  HelpCircle,
+  XCircle,
+} from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/auth-context";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { auth } from "@/lib/firebase";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface Word {
   id: string;
@@ -23,6 +31,7 @@ export default function MemorizeUnitPage() {
   const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useAuth();
   const unit = Number.parseInt(params.unit as string);
 
   const [words, setWords] = useState<Word[]>([]);
@@ -43,7 +52,7 @@ export default function MemorizeUnitPage() {
       setLoading(true);
 
       console.log("[v0] Loading unit:", unit);
-      const userUid = auth?.currentUser?.uid;
+      const userUid = user?.uid;
       if (!userUid) {
         throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
       }
@@ -81,7 +90,7 @@ export default function MemorizeUnitPage() {
   const updateWordGrade = async (wordId: string, newGrade: number) => {
     try {
       console.log("[v0] Updating word grade:", { wordId, newGrade });
-      const userUid = auth?.currentUser?.uid;
+      const userUid = user?.uid;
       if (!userUid) {
         throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
       }
@@ -176,6 +185,26 @@ export default function MemorizeUnitPage() {
     return "border-yellow-500";
   };
 
+  const getBackgroundColor = (grade: number) => {
+    if (grade === -1) return "bg-gradient-to-r from-gray-400 to-gray-500";
+    if (grade === 0) return "bg-gradient-to-r from-red-500 to-red-600";
+    if (grade === 10) return "bg-gradient-to-r from-green-500 to-green-600";
+    return "bg-gradient-to-r from-yellow-500 to-yellow-600";
+  };
+
+  // Calculate statistics
+  const stats = {
+    known: words.filter((w) => w.knowing_grade === 10).length,
+    partial: words.filter((w) => w.knowing_grade > 0 && w.knowing_grade < 10)
+      .length,
+    unknown: words.filter((w) => w.knowing_grade === 0).length,
+    unclassified: words.filter((w) => w.knowing_grade === -1).length,
+  };
+
+  const totalClassified = stats.known + stats.partial + stats.unknown;
+  const progressPercentage =
+    words.length > 0 ? (totalClassified / words.length) * 100 : 0;
+
   const getFilterCount = (filterType: FilterType) => {
     if (filterType === "known")
       return words.filter((w) => w.knowing_grade === 10).length;
@@ -249,6 +278,75 @@ export default function MemorizeUnitPage() {
           </div>
         </div>
 
+        {/* Progress Bar */}
+        {words.length > 0 && (
+          <Card className="overflow-hidden">
+            <CardContent className="p-4 space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-medium text-foreground">
+                  התקדמות סיווג
+                </span>
+                <span className="text-muted-foreground">
+                  {totalClassified} מתוך {words.length} (
+                  {Math.round(progressPercentage)}%)
+                </span>
+              </div>
+              <div className="w-full bg-secondary rounded-full h-3 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Statistics Card */}
+        {words.length > 0 && (
+          <Card>
+            <CardContent className="p-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center space-y-1">
+                  <div className="flex items-center justify-center gap-1">
+                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                    <span className="text-2xl font-bold text-foreground">
+                      {stats.known}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">יודע</p>
+                </div>
+                <div className="text-center space-y-1">
+                  <div className="flex items-center justify-center gap-1">
+                    <HelpCircle className="h-4 w-4 text-yellow-600" />
+                    <span className="text-2xl font-bold text-foreground">
+                      {stats.partial}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">בערך</p>
+                </div>
+                <div className="text-center space-y-1">
+                  <div className="flex items-center justify-center gap-1">
+                    <XCircle className="h-4 w-4 text-red-600" />
+                    <span className="text-2xl font-bold text-foreground">
+                      {stats.unknown}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">לא יודע</p>
+                </div>
+                <div className="text-center space-y-1">
+                  <div className="flex items-center justify-center gap-1">
+                    <div className="h-4 w-4 rounded-full bg-gray-400" />
+                    <span className="text-2xl font-bold text-foreground">
+                      {stats.unclassified}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">לא מסווג</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Words per page selector */}
         <div className="flex items-center gap-4 bg-card p-4 rounded-xl border shadow-sm">
           <Label
@@ -277,7 +375,7 @@ export default function MemorizeUnitPage() {
             variant={activeFilters.has("known") ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFilter("known")}
-            className="rounded-lg border-4 border-green-700 ring-2 ring-green-300 text-green-700 font-semibold hover:bg-green-50 dark:hover:bg-green-950 data-[state=active]:bg-green-600 data-[state=active]:text-white data-[state=active]:border-green-800 data-[state=active]:ring-green-400"
+            className="rounded-lg border-4 border-green-700 ring-2 ring-green-300 text-green-700 font-semibold hover:bg-green-200 hover:text-green-900 dark:hover:bg-green-900 dark:hover:text-green-100 data-[state=active]:bg-green-600 data-[state=active]:text-white data-[state=active]:border-green-800 data-[state=active]:ring-green-400"
             data-state={activeFilters.has("known") ? "active" : "inactive"}
           >
             יודע ({getFilterCount("known")})
@@ -286,7 +384,7 @@ export default function MemorizeUnitPage() {
             variant={activeFilters.has("partial") ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFilter("partial")}
-            className="rounded-lg border-4 border-yellow-700 ring-2 ring-yellow-300 text-yellow-700 font-semibold hover:bg-yellow-50 dark:hover:bg-yellow-950 data-[state=active]:bg-yellow-600 data-[state=active]:text-white data-[state=active]:border-yellow-800 data-[state=active]:ring-yellow-400"
+            className="rounded-lg border-4 border-yellow-700 ring-2 ring-yellow-300 text-yellow-700 font-semibold hover:bg-yellow-200 hover:text-yellow-900 dark:hover:bg-yellow-900 dark:hover:text-yellow-100 data-[state=active]:bg-yellow-600 data-[state=active]:text-white data-[state=active]:border-yellow-800 data-[state=active]:ring-yellow-400"
             data-state={activeFilters.has("partial") ? "active" : "inactive"}
           >
             בערך ({getFilterCount("partial")})
@@ -295,7 +393,7 @@ export default function MemorizeUnitPage() {
             variant={activeFilters.has("unknown") ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFilter("unknown")}
-            className="rounded-lg border-4 border-red-700 ring-2 ring-red-300 text-red-700 font-semibold hover:bg-red-50 dark:hover:bg-red-950 data-[state=active]:bg-red-600 data-[state=active]:text-white data-[state=active]:border-red-800 data-[state=active]:ring-red-400"
+            className="rounded-lg border-4 border-red-700 ring-2 ring-red-300 text-red-700 font-semibold hover:bg-red-200 hover:text-red-900 dark:hover:bg-red-900 dark:hover:text-red-100 data-[state=active]:bg-red-600 data-[state=active]:text-white data-[state=active]:border-red-800 data-[state=active]:ring-red-400"
             data-state={activeFilters.has("unknown") ? "active" : "inactive"}
           >
             לא יודע ({getFilterCount("unknown")})
@@ -304,7 +402,7 @@ export default function MemorizeUnitPage() {
             variant={activeFilters.has("unclassified") ? "default" : "outline"}
             size="sm"
             onClick={() => toggleFilter("unclassified")}
-            className="rounded-lg border-4 border-gray-700 ring-2 ring-gray-300 text-gray-700 font-semibold hover:bg-gray-50 dark:hover:bg-gray-950 data-[state=active]:bg-gray-600 data-[state=active]:text-white data-[state=active]:border-gray-800 data-[state=active]:ring-gray-400"
+            className="rounded-lg border-4 border-gray-700 ring-2 ring-gray-300 text-gray-700 font-semibold hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100 data-[state=active]:bg-gray-600 data-[state=active]:text-white data-[state=active]:border-gray-800 data-[state=active]:ring-gray-400"
             data-state={
               activeFilters.has("unclassified") ? "active" : "inactive"
             }
@@ -326,40 +424,46 @@ export default function MemorizeUnitPage() {
           )}
         </div>
 
-        {/* Words Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {currentWords.map((word) => (
+        {/* Words List */}
+        <div className="space-y-3">
+          {currentWords.map((word, index) => (
             <div
               key={word.id}
-              className={`p-4 rounded-xl border-4 ${getBorderColor(
+              className={`p-4 rounded-xl ${getBackgroundColor(
                 word.knowing_grade
-              )} bg-card shadow-md transition-all duration-200 hover:shadow-lg space-y-3`}
+              )} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex items-center justify-between gap-4`}
+              style={{
+                animation: `fadeIn 0.3s ease-out ${index * 50}ms both`,
+              }}
+              dir="ltr"
             >
-              {/* Word (clickable) */}
-              <button
-                onClick={() => toggleReveal(word.id)}
-                className="w-full text-right"
-              >
-                <p className="text-xl font-bold text-foreground hover:text-primary transition-colors">
-                  {word.word}
-                </p>
-              </button>
+              {/* Word and Meaning (left side) */}
+              <div className="flex-1 flex flex-col">
+                <button
+                  onClick={() => toggleReveal(word.id)}
+                  className="text-left transition-transform hover:scale-105 active:scale-100"
+                >
+                  <p className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200">
+                    {word.word}
+                  </p>
+                </button>
+                {/* Meaning (revealed) */}
+                {revealedWords.has(word.id) && (
+                  <p className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm">
+                    {word.meaning}
+                  </p>
+                )}
+              </div>
 
-              {/* Meaning (revealed) */}
-              {revealedWords.has(word.id) && (
-                <p className="text-base text-foreground animate-fade-in">
-                  {word.meaning}
-                </p>
-              )}
-
-              {/* Grade Buttons */}
-              <div className="flex gap-2 pt-2">
+              {/* Grade Buttons (right side) */}
+              <div className="flex gap-2">
                 <Button
                   size="sm"
                   variant={word.knowing_grade === 0 ? "default" : "outline"}
                   onClick={() => updateWordGrade(word.id, 0)}
-                  className="flex-1 rounded-lg bg-red-500 hover:bg-red-600 text-white border-red-500"
+                  className="rounded-lg bg-red-600 hover:bg-red-700 text-white border-red-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
+                  <XCircle className="h-4 w-4" />
                   לא יודע
                 </Button>
                 <Button
@@ -370,16 +474,18 @@ export default function MemorizeUnitPage() {
                       : "outline"
                   }
                   onClick={() => updateWordGrade(word.id, 5)}
-                  className="flex-1 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white border-yellow-500"
+                  className="rounded-lg bg-yellow-600 hover:bg-yellow-700 text-white border-yellow-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
+                  <HelpCircle className="h-4 w-4" />
                   בערך
                 </Button>
                 <Button
                   size="sm"
                   variant={word.knowing_grade === 10 ? "default" : "outline"}
                   onClick={() => updateWordGrade(word.id, 10)}
-                  className="flex-1 rounded-lg bg-green-500 hover:bg-green-600 text-white border-green-500"
+                  className="rounded-lg bg-green-600 hover:bg-green-700 text-white border-green-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
+                  <CheckCircle2 className="h-4 w-4" />
                   יודע
                 </Button>
               </div>
