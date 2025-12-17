@@ -1,21 +1,45 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Play, Plus, BookOpen, LogIn } from "lucide-react"
-import Link from "next/link"
-import { useAuth } from "@/contexts/auth-context"
-import { UserMenu } from "@/components/user-menu"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Play, Plus, BookOpen, LogIn } from "lucide-react";
+import Link from "next/link";
+import { useAuth } from "@/contexts/auth-context";
+import { UserMenu } from "@/components/user-menu";
 
 export default function HomePage() {
-  const [hasLastTraining, setHasLastTraining] = useState(false)
-  const { user, loading } = useAuth()
+  const [hasLastTraining, setHasLastTraining] = useState(false);
+  const { user, loading } = useAuth();
+
+  const checkForLastTraining = () => {
+    const currentTraining = localStorage.getItem("currentTrainingName");
+    console.log("[v0] Current training from localStorage:", currentTraining);
+    setHasLastTraining(!!currentTraining);
+  };
 
   useEffect(() => {
-    const lastTraining = localStorage.getItem("lastTrainingId")
-    console.log("[v0] Last training from localStorage:", lastTraining)
-    setHasLastTraining(!!lastTraining)
-  }, [])
+    checkForLastTraining();
+
+    // Check when page becomes visible (user navigates back)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        checkForLastTraining();
+      }
+    };
+
+    // Check when window gains focus
+    const handleFocus = () => {
+      checkForLastTraining();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, []);
 
   return (
     <div
@@ -39,7 +63,9 @@ export default function HomePage() {
       <div className="w-full max-w-md space-y-8 animate-fade-in">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground">אוצר מילים</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+            אוצר מילים
+          </h1>
           <p className="text-lg text-muted-foreground">למידת אנגלית</p>
         </div>
 
@@ -84,11 +110,15 @@ export default function HomePage() {
             </div>
 
             {/* Footer hint */}
-            <p className="text-center text-sm text-muted-foreground">בחר באפשרות כדי להתחיל</p>
+            <p className="text-center text-sm text-muted-foreground">
+              בחר באפשרות כדי להתחיל
+            </p>
           </>
         ) : (
           <div className="text-center space-y-4">
-            <p className="text-muted-foreground">יש להתחבר כדי להשתמש באפליקציה</p>
+            <p className="text-muted-foreground">
+              יש להתחבר כדי להשתמש באפליקציה
+            </p>
             <Link href="/login">
               <Button size="lg" className="w-full h-14 rounded-xl">
                 <LogIn className="ml-2 h-5 w-5" />
@@ -99,5 +129,5 @@ export default function HomePage() {
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -81,6 +81,8 @@ export default function TrainingPage() {
         setIsCompleted(true);
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 5000);
+        // Clear the training name when training is completed
+        localStorage.removeItem("currentTrainingName");
       } else {
         setCurrentWord(data.first_word);
         setQueueRemaining(data.queue_size_remaining);
@@ -154,6 +156,8 @@ export default function TrainingPage() {
           setIsCompleted(true);
           setShowConfetti(true);
           setTimeout(() => setShowConfetti(false), 5000);
+          // Clear the training name when training is completed
+          localStorage.removeItem("currentTrainingName");
         } else {
           setCurrentWord(data.next_word);
           setShowMeaning(false);

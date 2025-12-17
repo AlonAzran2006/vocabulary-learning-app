@@ -1,4 +1,5 @@
 {
+  "/api/proxy/create_training/route": "app/api/proxy/create_training/route.js",
   "/api/proxy/list_trainings/route": "app/api/proxy/list_trainings/route.js",
   "/api/proxy/memorization_update_word/route": "app/api/proxy/memorization_update_word/route.js",
   "/api/proxy/memorize_unit/route": "app/api/proxy/memorize_unit/route.js",
