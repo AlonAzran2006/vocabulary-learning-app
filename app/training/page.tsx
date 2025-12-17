@@ -220,12 +220,6 @@ export default function TrainingPage() {
           setCurrentStreak(0);
         }
 
-        toast({
-          title: "✓ נשמר",
-          description: "עובר למילה הבאה...",
-          className: "bg-success text-success-foreground",
-        });
-
         setTimeout(() => {
           if (result.training_complete) {
             setIsCompleted(true);
@@ -289,12 +283,6 @@ export default function TrainingPage() {
       } else {
         setCurrentStreak(0);
       }
-
-      toast({
-        title: "✓ נשמר",
-        description: "עובר למילה הבאה...",
-        className: "bg-success text-success-foreground",
-      });
 
       setTimeout(() => {
         if (data.training_complete) {
@@ -572,28 +560,30 @@ export default function TrainingPage() {
                 </h2>
               </div>
 
-              {!showMeaning ? (
-                <Button
-                  onClick={() => setShowMeaning(true)}
-                  variant="outline"
-                  className="h-14 px-8 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all border-2 text-base font-medium shadow-sm"
-                >
-                  <Eye className="ml-2 h-5 w-5" />
-                  הצג פירוש
-                  {!isMobile && (
-                    <span className="mr-2 text-xs opacity-60">(Space)</span>
-                  )}
-                </Button>
-              ) : (
-                <div
-                  key={`meaning-${currentWord.id}`}
-                  className="p-8 rounded-2xl animate-fade-in bg-gradient-to-br from-secondary/50 to-secondary/30 border-2 border-primary/20"
-                >
-                  <p className="text-3xl md:text-4xl font-bold text-foreground break-words overflow-wrap-anywhere leading-relaxed">
-                    {currentWord.meaning}
-                  </p>
-                </div>
-              )}
+              <div className="min-h-[120px] flex items-center justify-center">
+                {!showMeaning ? (
+                  <Button
+                    onClick={() => setShowMeaning(true)}
+                    variant="outline"
+                    className="h-14 px-8 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all border-2 text-base font-medium shadow-sm"
+                  >
+                    <Eye className="ml-2 h-5 w-5" />
+                    הצג פירוש
+                    {!isMobile && (
+                      <span className="mr-2 text-xs opacity-60">(Space)</span>
+                    )}
+                  </Button>
+                ) : (
+                  <div
+                    key={`meaning-${currentWord.id}`}
+                    className="w-full p-8 rounded-2xl animate-fade-in bg-gradient-to-br from-secondary/50 to-secondary/30 border-2 border-primary/20"
+                  >
+                    <p className="text-3xl md:text-4xl font-bold text-foreground break-words overflow-wrap-anywhere leading-relaxed">
+                      {currentWord.meaning}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Grade Selection */}
@@ -612,53 +602,55 @@ export default function TrainingPage() {
                 <Button
                   onClick={() => setSelectedGrade(-1)}
                   variant={selectedGrade === -1 ? "default" : "outline"}
-                  className={`h-24 rounded-xl text-base font-semibold transition-all hover:scale-[1.05] active:scale-[0.97] relative ${
+                  className={`h-24 rounded-xl text-sm md:text-base font-semibold transition-all hover:scale-[1.05] active:scale-[0.97] relative flex flex-col items-center justify-center gap-1 px-2 ${
                     selectedGrade === -1
                       ? "bg-destructive text-destructive-foreground shadow-xl scale-[1.05] ring-2 ring-destructive/50"
                       : "hover:bg-destructive/10 hover:border-destructive border-2"
                   }`}
                 >
                   {!isMobile && (
-                    <span className="absolute top-2 left-2 text-xs opacity-60 font-normal">
+                    <span className="absolute top-1 left-1 text-xs opacity-60 font-normal">
                       1
                     </span>
                   )}
-                  <span className="text-2xl mb-1">❌</span>
-                  לא יודע
+                  <span className="text-xl md:text-2xl">❌</span>
+                  <span className="text-xs md:text-sm leading-tight">
+                    לא יודע
+                  </span>
                 </Button>
                 <Button
                   onClick={() => setSelectedGrade(0)}
                   variant={selectedGrade === 0 ? "default" : "outline"}
-                  className={`h-24 rounded-xl text-base font-semibold transition-all hover:scale-[1.05] active:scale-[0.97] relative ${
+                  className={`h-24 rounded-xl text-sm md:text-base font-semibold transition-all hover:scale-[1.05] active:scale-[0.97] relative flex flex-col items-center justify-center gap-1 px-2 ${
                     selectedGrade === 0
                       ? "bg-primary text-primary-foreground shadow-xl scale-[1.05] ring-2 ring-primary/50"
                       : "hover:bg-primary/10 hover:border-primary border-2"
                   }`}
                 >
                   {!isMobile && (
-                    <span className="absolute top-2 left-2 text-xs opacity-60 font-normal">
+                    <span className="absolute top-1 left-1 text-xs opacity-60 font-normal">
                       2
                     </span>
                   )}
-                  <span className="text-2xl mb-1">🤔</span>
-                  בערך
+                  <span className="text-xl md:text-2xl">🤔</span>
+                  <span className="text-xs md:text-sm leading-tight">בערך</span>
                 </Button>
                 <Button
                   onClick={() => setSelectedGrade(1)}
                   variant={selectedGrade === 1 ? "default" : "outline"}
-                  className={`h-24 rounded-xl text-base font-semibold transition-all hover:scale-[1.05] active:scale-[0.97] relative ${
+                  className={`h-24 rounded-xl text-sm md:text-base font-semibold transition-all hover:scale-[1.05] active:scale-[0.97] relative flex flex-col items-center justify-center gap-1 px-2 ${
                     selectedGrade === 1
                       ? "bg-success text-success-foreground shadow-xl scale-[1.05] ring-2 ring-success/50"
                       : "hover:bg-success/10 hover:border-success border-2"
                   }`}
                 >
                   {!isMobile && (
-                    <span className="absolute top-2 left-2 text-xs opacity-60 font-normal">
+                    <span className="absolute top-1 left-1 text-xs opacity-60 font-normal">
                       3
                     </span>
                   )}
-                  <span className="text-2xl mb-1">✅</span>
-                  יודע
+                  <span className="text-xl md:text-2xl">✅</span>
+                  <span className="text-xs md:text-sm leading-tight">יודע</span>
                 </Button>
               </div>
             </div>
