@@ -274,8 +274,8 @@ export default function TrainingPage() {
         <Card className="overflow-hidden shadow-xl">
           <CardContent className="p-8 md:p-12 space-y-8">
             {/* English Word */}
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground animate-scale-in">
+            <div className="text-center space-y-4 overflow-hidden">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground animate-scale-in break-words overflow-wrap-anywhere px-2">
                 {currentWord.word}
               </h2>
 
@@ -290,7 +290,7 @@ export default function TrainingPage() {
                 </Button>
               ) : (
                 <div className="p-6 rounded-xl animate-fade-in">
-                  <p className="text-2xl font-semibold text-foreground">
+                  <p className="text-2xl font-semibold text-foreground break-words overflow-wrap-anywhere">
                     {currentWord.meaning}
                   </p>
                 </div>
