@@ -441,7 +441,7 @@ export default function MemorizeUnitPage() {
               <div className="flex-1 flex flex-col">
                 <button
                   onClick={() => toggleReveal(word.id)}
-                  className="text-left transition-transform hover:scale-105 active:scale-100"
+                  className="text-left transition-transform hover:scale-[1.01] active:scale-100"
                 >
                   <p className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200">
                     {word.word}

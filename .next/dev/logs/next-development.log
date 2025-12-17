@@ -4122,3 +4122,27 @@
 [00:50:08.133] Browser LOG     [v0] Server keep-alive ping sent
 [00:55:07.586] Browser LOG     [v0] Server keep-alive ping sent
 [01:00:07.635] Browser LOG     [v0] Server keep-alive ping sent
+[01:05:10.212] Browser LOG     [v0] Server keep-alive ping sent
+[01:10:07.609] Browser LOG     [v0] Server keep-alive ping sent
+[01:15:07.728] Browser LOG     [v0] Server keep-alive ping sent
+[01:20:08.119] Browser LOG     [v0] Server keep-alive ping sent
+[01:24:11.813] Server  LOG      ✓ Compiled in 95ms
+[01:24:43.197] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/memorize color: rgb(120, 120, 120) color: inherit {"dp":"/memorize","o":"http://localhost:3000/memorize","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765991181109}
+[01:24:45.271] Browser LOG     [v0] Last training from localStorage: null
+[01:24:45.271] Browser LOG     [v0] Last training from localStorage: null
+[01:24:45.271] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765991183180}
+[01:24:48.938] Browser LOG     [v0] Fetching trainings from proxy API
+[01:24:48.938] Browser LOG     [v0] Fetching trainings from proxy API
+[01:24:48.938] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/trainings color: rgb(120, 120, 120) color: inherit {"dp":"/trainings","o":"http://localhost:3000/trainings","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765991186858}
+[01:24:49.259] Browser LOG     [v0] Response status: 200
+[01:24:49.259] Browser LOG     [v0] Response data: {"status":"ok","trainings":[]}
+[01:24:49.523] Browser LOG     [v0] Response status: 200
+[01:24:49.523] Browser LOG     [v0] Response data: {"status":"ok","trainings":[]}
+[01:24:50.637] Browser LOG     [v0] Last training from localStorage: null
+[01:24:50.637] Browser LOG     [v0] Last training from localStorage: null
+[01:24:50.637] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765991188555}
+[01:25:08.110] Browser LOG     [v0] Server keep-alive ping sent
+[01:30:07.684] Browser LOG     [v0] Server keep-alive ping sent
+[01:35:08.088] Browser LOG     [v0] Server keep-alive ping sent
+[01:40:08.111] Browser LOG     [v0] Server keep-alive ping sent
+[01:45:08.176] Browser LOG     [v0] Server keep-alive ping sent

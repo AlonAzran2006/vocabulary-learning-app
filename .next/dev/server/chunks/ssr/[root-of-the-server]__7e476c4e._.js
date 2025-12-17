@@ -167,7 +167,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$contexts$2f$auth$2d$context$
 ;
 ;
 const metadata = {
-    title: "אוצר מילים — אימונים",
+    title: "לימוד מילים לפסיכומטרי",
     description: "אפליקציה ללימוד אוצר מילים באנגלית",
     generator: "v0.app",
     icons: {
