@@ -427,6 +427,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navi
 ;
 ;
 const BACKEND_URL = ("TURBOPACK compile-time value", "https://psychometric-vocabulary-study.onrender.com") || "https://word-psicho-server.onrender.com";
+// Check if dev mode is enabled
+const DEV_MODE = ("TURBOPACK compile-time value", "true") === "true";
 function TrainingsPage() {
     const [trainings, setTrainings] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [isDialogOpen, setIsDialogOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -599,7 +601,7 @@ function TrainingsPage() {
                             children: "האימונים שלי"
                         }, void 0, false, {
                             fileName: "[project]/app/trainings/page.tsx",
-                            lineNumber: 236,
+                            lineNumber: 245,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -607,13 +609,13 @@ function TrainingsPage() {
                             children: "צור אימון חדש או המשך אימון קיים"
                         }, void 0, false, {
                             fileName: "[project]/app/trainings/page.tsx",
-                            lineNumber: 239,
+                            lineNumber: 248,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/trainings/page.tsx",
-                    lineNumber: 235,
+                    lineNumber: 244,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -623,7 +625,7 @@ function TrainingsPage() {
                     children: "← חזרה למסך הראשי"
                 }, void 0, false, {
                     fileName: "[project]/app/trainings/page.tsx",
-                    lineNumber: 244,
+                    lineNumber: 253,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -640,19 +642,19 @@ function TrainingsPage() {
                                         className: "ml-2 h-6 w-6"
                                     }, void 0, false, {
                                         fileName: "[project]/app/trainings/page.tsx",
-                                        lineNumber: 259,
+                                        lineNumber: 268,
                                         columnNumber: 15
                                     }, this),
                                     "יצירת אימון חדש"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/trainings/page.tsx",
-                                lineNumber: 255,
+                                lineNumber: 264,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/trainings/page.tsx",
-                            lineNumber: 254,
+                            lineNumber: 263,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DialogContent"], {
@@ -665,12 +667,12 @@ function TrainingsPage() {
                                         children: "אימון חדש"
                                     }, void 0, false, {
                                         fileName: "[project]/app/trainings/page.tsx",
-                                        lineNumber: 265,
+                                        lineNumber: 274,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/trainings/page.tsx",
-                                    lineNumber: 264,
+                                    lineNumber: 273,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -685,7 +687,7 @@ function TrainingsPage() {
                                                     children: "שם האימון"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/trainings/page.tsx",
-                                                    lineNumber: 271,
+                                                    lineNumber: 280,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -697,13 +699,13 @@ function TrainingsPage() {
                                                     dir: "rtl"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/trainings/page.tsx",
-                                                    lineNumber: 274,
+                                                    lineNumber: 283,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/trainings/page.tsx",
-                                            lineNumber: 270,
+                                            lineNumber: 279,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -714,7 +716,7 @@ function TrainingsPage() {
                                                     children: "בחירת יחידות מקור (1-10)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/trainings/page.tsx",
-                                                    lineNumber: 285,
+                                                    lineNumber: 294,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -749,7 +751,7 @@ function TrainingsPage() {
                                                                     className: "w-4 h-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/trainings/page.tsx",
-                                                                    lineNumber: 292,
+                                                                    lineNumber: 301,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -760,24 +762,24 @@ function TrainingsPage() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/trainings/page.tsx",
-                                                                    lineNumber: 309,
+                                                                    lineNumber: 318,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, num, true, {
                                                             fileName: "[project]/app/trainings/page.tsx",
-                                                            lineNumber: 288,
+                                                            lineNumber: 297,
                                                             columnNumber: 21
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/trainings/page.tsx",
-                                                    lineNumber: 286,
+                                                    lineNumber: 295,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/trainings/page.tsx",
-                                            lineNumber: 284,
+                                            lineNumber: 293,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -790,7 +792,7 @@ function TrainingsPage() {
                                                         className: "ml-2 h-5 w-5 animate-spin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/trainings/page.tsx",
-                                                        lineNumber: 322,
+                                                        lineNumber: 331,
                                                         columnNumber: 21
                                                     }, this),
                                                     "יוצר אימון..."
@@ -798,25 +800,25 @@ function TrainingsPage() {
                                             }, void 0, true) : "צור אימון"
                                         }, void 0, false, {
                                             fileName: "[project]/app/trainings/page.tsx",
-                                            lineNumber: 315,
+                                            lineNumber: 324,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/trainings/page.tsx",
-                                    lineNumber: 269,
+                                    lineNumber: 278,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/trainings/page.tsx",
-                            lineNumber: 263,
+                            lineNumber: 272,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/trainings/page.tsx",
-                    lineNumber: 253,
+                    lineNumber: 262,
                     columnNumber: 9
                 }, this),
                 trainings.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -827,7 +829,7 @@ function TrainingsPage() {
                             children: "אימונים קודמים"
                         }, void 0, false, {
                             fileName: "[project]/app/trainings/page.tsx",
-                            lineNumber: 336,
+                            lineNumber: 345,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -847,7 +849,7 @@ function TrainingsPage() {
                                                             children: training.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/trainings/page.tsx",
-                                                            lineNumber: 348,
+                                                            lineNumber: 357,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -858,13 +860,13 @@ function TrainingsPage() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/trainings/page.tsx",
-                                                            lineNumber: 351,
+                                                            lineNumber: 360,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/trainings/page.tsx",
-                                                    lineNumber: 347,
+                                                    lineNumber: 356,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -875,7 +877,7 @@ function TrainingsPage() {
                                                         className: "h-5 w-5 animate-spin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/trainings/page.tsx",
-                                                        lineNumber: 365,
+                                                        lineNumber: 374,
                                                         columnNumber: 27
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                                         children: [
@@ -883,7 +885,7 @@ function TrainingsPage() {
                                                                 className: "ml-2 h-5 w-5"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/trainings/page.tsx",
-                                                                lineNumber: 368,
+                                                                lineNumber: 377,
                                                                 columnNumber: 29
                                                             }, this),
                                                             "המשך"
@@ -891,34 +893,34 @@ function TrainingsPage() {
                                                     }, void 0, true)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/trainings/page.tsx",
-                                                    lineNumber: 359,
+                                                    lineNumber: 368,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/trainings/page.tsx",
-                                            lineNumber: 346,
+                                            lineNumber: 355,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/trainings/page.tsx",
-                                        lineNumber: 345,
+                                        lineNumber: 354,
                                         columnNumber: 19
                                     }, this)
                                 }, training.name, false, {
                                     fileName: "[project]/app/trainings/page.tsx",
-                                    lineNumber: 341,
+                                    lineNumber: 350,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/app/trainings/page.tsx",
-                            lineNumber: 339,
+                            lineNumber: 348,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/trainings/page.tsx",
-                    lineNumber: 335,
+                    lineNumber: 344,
                     columnNumber: 11
                 }, this),
                 trainings.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -928,23 +930,23 @@ function TrainingsPage() {
                         children: "עדיין אין אימונים. צור אימון חדש כדי להתחיל!"
                     }, void 0, false, {
                         fileName: "[project]/app/trainings/page.tsx",
-                        lineNumber: 383,
+                        lineNumber: 392,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/trainings/page.tsx",
-                    lineNumber: 382,
+                    lineNumber: 391,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/trainings/page.tsx",
-            lineNumber: 233,
+            lineNumber: 242,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/trainings/page.tsx",
-        lineNumber: 232,
+        lineNumber: 241,
         columnNumber: 5
     }, this);
 }

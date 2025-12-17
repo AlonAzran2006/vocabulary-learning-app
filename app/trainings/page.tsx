@@ -16,6 +16,12 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
 import { Plus, Play, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import {
+  getMockTrainings,
+  addMockTraining,
+  initializeMockTraining,
+  type MockTraining,
+} from "@/lib/mock-data";
 
 interface TrainingListItem {
   name: string;
@@ -38,6 +44,9 @@ const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   "https://word-psicho-server.onrender.com";
 
+// Check if dev mode is enabled
+const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true";
+
 export default function TrainingsPage() {
   const [trainings, setTrainings] = useState<Training[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -55,6 +64,23 @@ export default function TrainingsPage() {
 
   const loadExistingTrainings = async () => {
     try {
+      if (DEV_MODE) {
+        // Use mock data in dev mode
+        console.log("[v0] Dev mode: Loading mock trainings");
+        const mockTrainings = getMockTrainings();
+        const formattedTrainings: Training[] = mockTrainings.map((t) => ({
+          name: t.name,
+          fileIndexes: t.fileIndexes,
+          createdAt: t.lastModified
+            ? new Date(t.lastModified * 1000).toISOString()
+            : new Date().toISOString(),
+          wordCount: t.wordCount,
+          lastModified: t.lastModified,
+        }));
+        setTrainings(formattedTrainings);
+        return;
+      }
+
       console.log("[v0] Fetching trainings from proxy API");
 
       const userUid = user?.uid;
@@ -123,6 +149,43 @@ export default function TrainingsPage() {
     setIsCreating(true);
 
     try {
+      if (DEV_MODE) {
+        // Use mock data in dev mode
+        console.log("[v0] Dev mode: Creating mock training");
+        const mockTraining = addMockTraining(trainingName, selectedFileIndexes);
+
+        const newTraining: Training = {
+          name: mockTraining.name,
+          fileIndexes: mockTraining.fileIndexes,
+          createdAt: new Date().toISOString(),
+          numUniqueWords: mockTraining.wordCount,
+          totalItems: mockTraining.wordCount,
+          wordCount: mockTraining.wordCount,
+          lastModified: mockTraining.lastModified,
+        };
+
+        setTrainings([newTraining, ...trainings]);
+        setIsDialogOpen(false);
+        setTrainingName("");
+        setSelectedFileIndexes([]);
+
+        toast({
+          title: "✓ האימון נוצר בהצלחה",
+          description: `${mockTraining.wordCount} מילים ייחודיות, ${mockTraining.wordCount} פריטים לתרגול`,
+          className: "bg-success text-success-foreground",
+        });
+
+        setTimeout(() => {
+          if (confirm("האימון נוצר בהצלחה! האם ברצונך להתחיל עכשיו?")) {
+            handleLoadTraining(trainingName);
+          } else {
+            loadExistingTrainings();
+          }
+        }, 500);
+        setIsCreating(false);
+        return;
+      }
+
       const userUid = user?.uid;
       if (!userUid) {
         throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
@@ -187,6 +250,35 @@ export default function TrainingsPage() {
     setIsLoading(trainingName);
 
     try {
+      if (DEV_MODE) {
+        // Use mock data in dev mode
+        console.log("[v0] Dev mode: Loading mock training");
+
+        // Find the training to get file indexes
+        const allTrainings = getMockTrainings();
+        const training = allTrainings.find((t) => t.name === trainingName);
+
+        if (!training) {
+          throw new Error("אימון לא נמצא");
+        }
+
+        // Initialize the training queue
+        initializeMockTraining(trainingName, training.fileIndexes);
+        localStorage.setItem("currentTrainingName", trainingName);
+
+        toast({
+          title: "✓ האימון נטען בהצלחה",
+          description: "מתחיל את האימון...",
+          className: "bg-success text-success-foreground",
+        });
+
+        setTimeout(() => {
+          router.push("/training");
+        }, 500);
+        setIsLoading(null);
+        return;
+      }
+
       const userUid = user?.uid;
       if (!userUid) {
         throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
