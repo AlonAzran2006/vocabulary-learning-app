@@ -324,11 +324,11 @@ export default function TrainingPage() {
 
       // Number keys for grade selection
       if (e.key === "1") {
-        setSelectedGrade(-1);
+        setSelectedGrade(1);
       } else if (e.key === "2") {
         setSelectedGrade(0);
       } else if (e.key === "3") {
-        setSelectedGrade(1);
+        setSelectedGrade(-1);
       } else if (e.key === "Enter" && selectedGrade !== null && !isSubmitting) {
         handleSubmit();
       } else if (e.key === "Escape" && showMeaning) {
@@ -610,7 +610,7 @@ export default function TrainingPage() {
                 >
                   {!isMobile && (
                     <span className="absolute top-1 left-1 text-xs opacity-60 font-normal">
-                      1
+                      3
                     </span>
                   )}
                   <span className="text-xl md:text-2xl">❌</span>
@@ -646,7 +646,7 @@ export default function TrainingPage() {
                 >
                   {!isMobile && (
                     <span className="absolute top-1 left-1 text-xs opacity-60 font-normal">
-                      3
+                      1
                     </span>
                   )}
                   <span className="text-xl md:text-2xl">✅</span>

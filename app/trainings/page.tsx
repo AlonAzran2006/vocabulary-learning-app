@@ -62,6 +62,59 @@ export default function TrainingsPage() {
     loadExistingTrainings();
   }, []);
 
+  // Generate training name based on selected units
+  const generateTrainingName = (indexes: number[]): string => {
+    if (indexes.length === 0) {
+      return "";
+    }
+
+    // Sort the indexes
+    const sorted = [...indexes].sort((a, b) => a - b);
+
+    // Single unit
+    if (sorted.length === 1) {
+      return `יחידה ${sorted[0]}`;
+    }
+
+    // Find consecutive ranges
+    const ranges: Array<{ start: number; end: number }> = [];
+    let start = sorted[0];
+    let end = sorted[0];
+
+    for (let i = 1; i < sorted.length; i++) {
+      if (sorted[i] === end + 1) {
+        // Consecutive, extend the range
+        end = sorted[i];
+      } else {
+        // Break in sequence, save current range
+        ranges.push({ start, end });
+        start = sorted[i];
+        end = sorted[i];
+      }
+    }
+    ranges.push({ start, end });
+
+    // Format ranges
+    const parts = ranges.map((range) => {
+      if (range.start === range.end) {
+        return `${range.start}`;
+      } else {
+        return `${range.start}-${range.end}`;
+      }
+    });
+
+    return `יחידות ${parts.join(",")}`;
+  };
+
+  // Update training name when selected units change
+  useEffect(() => {
+    if (isDialogOpen && selectedFileIndexes.length > 0) {
+      setTrainingName(generateTrainingName(selectedFileIndexes));
+    } else if (isDialogOpen && selectedFileIndexes.length === 0) {
+      setTrainingName("");
+    }
+  }, [selectedFileIndexes, isDialogOpen]);
+
   const loadExistingTrainings = async () => {
     try {
       if (DEV_MODE) {
@@ -374,7 +427,26 @@ export default function TrainingsPage() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-base">בחירת יחידות מקור (1-10)</Label>
+                <div className="flex items-center justify-between">
+                  <Label className="text-base">בחירת יחידות מקור (1-10)</Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      if (selectedFileIndexes.length === 10) {
+                        setSelectedFileIndexes([]);
+                      } else {
+                        setSelectedFileIndexes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+                      }
+                    }}
+                    className="h-8 text-xs"
+                  >
+                    {selectedFileIndexes.length === 10
+                      ? "ביטול הכל"
+                      : "בחר הכל"}
+                  </Button>
+                </div>
                 <div className="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto">
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                     <label

@@ -304,6 +304,12 @@ function MemorizeUnitPage() {
         }
     };
     const updateWordGrade = async (wordId, newGrade)=>{
+        // Optimistic update - update UI immediately
+        const previousGrade = words.find((w)=>w.id === wordId)?.knowing_grade;
+        setWords((prevWords)=>prevWords.map((w)=>w.id === wordId ? {
+                    ...w,
+                    knowing_grade: newGrade
+                } : w));
         try {
             console.log("[v0] Updating word grade:", {
                 wordId,
@@ -329,15 +335,21 @@ function MemorizeUnitPage() {
             }
             const data = await response.json();
             console.log("[v0] Word grade updated:", data);
-            if (data.status === "ok") {
-                // Update local state
+            if (data.status !== "ok") {
+                // Revert on error
                 setWords((prevWords)=>prevWords.map((w)=>w.id === wordId ? {
                             ...w,
-                            knowing_grade: newGrade
+                            knowing_grade: previousGrade ?? -1
                         } : w));
+                throw new Error("Failed to update grade on server");
             }
         } catch (error) {
             console.error("[v0] Error updating word grade:", error);
+            // Revert on error
+            setWords((prevWords)=>prevWords.map((w)=>w.id === wordId ? {
+                        ...w,
+                        knowing_grade: previousGrade ?? -1
+                    } : w));
             toast({
                 title: "שגיאה",
                 description: "לא ניתן לעדכן את הציון",
@@ -429,7 +441,7 @@ function MemorizeUnitPage() {
                         className: "animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"
                     }, void 0, false, {
                         fileName: "[project]/app/memorize/[unit]/page.tsx",
-                        lineNumber: 236,
+                        lineNumber: 251,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -441,18 +453,18 @@ function MemorizeUnitPage() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/memorize/[unit]/page.tsx",
-                        lineNumber: 237,
+                        lineNumber: 252,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/memorize/[unit]/page.tsx",
-                lineNumber: 235,
+                lineNumber: 250,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/memorize/[unit]/page.tsx",
-            lineNumber: 231,
+            lineNumber: 246,
             columnNumber: 7
         }, this);
     }
@@ -476,7 +488,7 @@ function MemorizeUnitPage() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 252,
+                                    lineNumber: 267,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -491,13 +503,13 @@ function MemorizeUnitPage() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 255,
+                                    lineNumber: 270,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 251,
+                            lineNumber: 266,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -513,17 +525,17 @@ function MemorizeUnitPage() {
                                             className: "h-5 w-5"
                                         }, void 0, false, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 266,
+                                            lineNumber: 281,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                        lineNumber: 261,
+                                        lineNumber: 276,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 260,
+                                    lineNumber: 275,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -536,29 +548,29 @@ function MemorizeUnitPage() {
                                             className: "h-5 w-5"
                                         }, void 0, false, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 275,
+                                            lineNumber: 290,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                        lineNumber: 270,
+                                        lineNumber: 285,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 269,
+                                    lineNumber: 284,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 259,
+                            lineNumber: 274,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                    lineNumber: 250,
+                    lineNumber: 265,
                     columnNumber: 9
                 }, this),
                 words.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -574,7 +586,7 @@ function MemorizeUnitPage() {
                                         children: "התקדמות סיווג"
                                     }, void 0, false, {
                                         fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                        lineNumber: 286,
+                                        lineNumber: 301,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -589,13 +601,13 @@ function MemorizeUnitPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                        lineNumber: 289,
+                                        lineNumber: 304,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                lineNumber: 285,
+                                lineNumber: 300,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -607,23 +619,23 @@ function MemorizeUnitPage() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 295,
+                                    lineNumber: 310,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                lineNumber: 294,
+                                lineNumber: 309,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/memorize/[unit]/page.tsx",
-                        lineNumber: 284,
+                        lineNumber: 299,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                    lineNumber: 283,
+                    lineNumber: 298,
                     columnNumber: 11
                 }, this),
                 words.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -642,7 +654,7 @@ function MemorizeUnitPage() {
                                                     className: "h-4 w-4 text-green-600"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 311,
+                                                    lineNumber: 326,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -650,13 +662,13 @@ function MemorizeUnitPage() {
                                                     children: stats.known
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 312,
+                                                    lineNumber: 327,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 310,
+                                            lineNumber: 325,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -664,13 +676,13 @@ function MemorizeUnitPage() {
                                             children: "יודע"
                                         }, void 0, false, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 316,
+                                            lineNumber: 331,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 309,
+                                    lineNumber: 324,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -683,7 +695,7 @@ function MemorizeUnitPage() {
                                                     className: "h-4 w-4 text-yellow-600"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 320,
+                                                    lineNumber: 335,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -691,13 +703,13 @@ function MemorizeUnitPage() {
                                                     children: stats.partial
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 321,
+                                                    lineNumber: 336,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 319,
+                                            lineNumber: 334,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -705,13 +717,13 @@ function MemorizeUnitPage() {
                                             children: "בערך"
                                         }, void 0, false, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 325,
+                                            lineNumber: 340,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 318,
+                                    lineNumber: 333,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -724,7 +736,7 @@ function MemorizeUnitPage() {
                                                     className: "h-4 w-4 text-red-600"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 329,
+                                                    lineNumber: 344,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -732,13 +744,13 @@ function MemorizeUnitPage() {
                                                     children: stats.unknown
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 330,
+                                                    lineNumber: 345,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 328,
+                                            lineNumber: 343,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -746,13 +758,13 @@ function MemorizeUnitPage() {
                                             children: "לא יודע"
                                         }, void 0, false, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 334,
+                                            lineNumber: 349,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 327,
+                                    lineNumber: 342,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -765,7 +777,7 @@ function MemorizeUnitPage() {
                                                     className: "h-4 w-4 rounded-full bg-gray-400"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 338,
+                                                    lineNumber: 353,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -773,13 +785,13 @@ function MemorizeUnitPage() {
                                                     children: stats.unclassified
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 339,
+                                                    lineNumber: 354,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 337,
+                                            lineNumber: 352,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -787,29 +799,29 @@ function MemorizeUnitPage() {
                                             children: "לא מסווג"
                                         }, void 0, false, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 343,
+                                            lineNumber: 358,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 336,
+                                    lineNumber: 351,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 308,
+                            lineNumber: 323,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/memorize/[unit]/page.tsx",
-                        lineNumber: 307,
+                        lineNumber: 322,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                    lineNumber: 306,
+                    lineNumber: 321,
                     columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -821,7 +833,7 @@ function MemorizeUnitPage() {
                             children: "מילים בעמוד:"
                         }, void 0, false, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 352,
+                            lineNumber: 367,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -834,7 +846,7 @@ function MemorizeUnitPage() {
                             className: "w-20 rounded-lg"
                         }, void 0, false, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 358,
+                            lineNumber: 373,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -845,13 +857,13 @@ function MemorizeUnitPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 367,
+                            lineNumber: 382,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                    lineNumber: 351,
+                    lineNumber: 366,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -870,7 +882,7 @@ function MemorizeUnitPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 374,
+                            lineNumber: 389,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -886,7 +898,7 @@ function MemorizeUnitPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 383,
+                            lineNumber: 398,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -902,7 +914,7 @@ function MemorizeUnitPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 392,
+                            lineNumber: 407,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -918,7 +930,7 @@ function MemorizeUnitPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 401,
+                            lineNumber: 416,
                             columnNumber: 11
                         }, this),
                         activeFilters.size > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -932,59 +944,59 @@ function MemorizeUnitPage() {
                             children: "נקה מסננים"
                         }, void 0, false, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 413,
+                            lineNumber: 428,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                    lineNumber: 373,
+                    lineNumber: 388,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "space-y-3",
                     children: currentWords.map((word, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: `p-4 rounded-xl ${getBackgroundColor(word.knowing_grade)} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 overflow-hidden`,
+                            className: `p-4 rounded-xl ${getBackgroundColor(word.knowing_grade)} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex items-center justify-between gap-4`,
                             style: {
                                 animation: `fadeIn 0.3s ease-out ${index * 50}ms both`
                             },
                             dir: "ltr",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex-1 flex flex-col min-w-0 w-full sm:w-auto",
+                                    className: "flex-1 flex flex-col",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: ()=>toggleReveal(word.id),
-                                            className: "text-left transition-transform hover:scale-[1.01] active:scale-100 w-full",
+                                            className: "text-left transition-transform hover:scale-[1.01] active:scale-100",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200 break-words overflow-wrap-anywhere",
+                                                className: "text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200",
                                                 children: word.word
                                             }, void 0, false, {
                                                 fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                lineNumber: 446,
+                                                lineNumber: 461,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 442,
+                                            lineNumber: 457,
                                             columnNumber: 17
                                         }, this),
                                         revealedWords.has(word.id) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            className: "text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm break-words overflow-wrap-anywhere",
+                                            className: "text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm",
                                             children: word.meaning
                                         }, void 0, false, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 452,
+                                            lineNumber: 467,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 441,
+                                    lineNumber: 456,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex gap-2 shrink-0 flex-wrap sm:flex-nowrap w-full sm:w-auto justify-start sm:justify-end",
+                                    className: "flex gap-2",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
                                             size: "sm",
@@ -996,14 +1008,14 @@ function MemorizeUnitPage() {
                                                     className: "h-4 w-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 466,
+                                                    lineNumber: 481,
                                                     columnNumber: 19
                                                 }, this),
                                                 "לא יודע"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 460,
+                                            lineNumber: 475,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1016,14 +1028,14 @@ function MemorizeUnitPage() {
                                                     className: "h-4 w-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 479,
+                                                    lineNumber: 494,
                                                     columnNumber: 19
                                                 }, this),
                                                 "בערך"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 469,
+                                            lineNumber: 484,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1036,31 +1048,31 @@ function MemorizeUnitPage() {
                                                     className: "h-4 w-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                                    lineNumber: 488,
+                                                    lineNumber: 503,
                                                     columnNumber: 19
                                                 }, this),
                                                 "יודע"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                            lineNumber: 482,
+                                            lineNumber: 497,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                    lineNumber: 459,
+                                    lineNumber: 474,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, word.id, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 430,
+                            lineNumber: 445,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                    lineNumber: 428,
+                    lineNumber: 443,
                     columnNumber: 9
                 }, this),
                 totalPages > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1076,12 +1088,12 @@ function MemorizeUnitPage() {
                                 className: "h-5 w-5"
                             }, void 0, false, {
                                 fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                lineNumber: 506,
+                                lineNumber: 521,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 499,
+                            lineNumber: 514,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1094,7 +1106,7 @@ function MemorizeUnitPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 508,
+                            lineNumber: 523,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1107,29 +1119,29 @@ function MemorizeUnitPage() {
                                 className: "h-5 w-5"
                             }, void 0, false, {
                                 fileName: "[project]/app/memorize/[unit]/page.tsx",
-                                lineNumber: 520,
+                                lineNumber: 535,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/memorize/[unit]/page.tsx",
-                            lineNumber: 511,
+                            lineNumber: 526,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/memorize/[unit]/page.tsx",
-                    lineNumber: 498,
+                    lineNumber: 513,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/memorize/[unit]/page.tsx",
-            lineNumber: 248,
+            lineNumber: 263,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/memorize/[unit]/page.tsx",
-        lineNumber: 244,
+        lineNumber: 259,
         columnNumber: 5
     }, this);
 }

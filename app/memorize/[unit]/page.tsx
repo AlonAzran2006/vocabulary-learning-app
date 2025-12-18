@@ -88,6 +88,14 @@ export default function MemorizeUnitPage() {
   };
 
   const updateWordGrade = async (wordId: string, newGrade: number) => {
+    // Optimistic update - update UI immediately
+    const previousGrade = words.find((w) => w.id === wordId)?.knowing_grade;
+    setWords((prevWords) =>
+      prevWords.map((w) =>
+        w.id === wordId ? { ...w, knowing_grade: newGrade } : w
+      )
+    );
+
     try {
       console.log("[v0] Updating word grade:", { wordId, newGrade });
       const userUid = user?.uid;
@@ -111,16 +119,23 @@ export default function MemorizeUnitPage() {
       const data = await response.json();
       console.log("[v0] Word grade updated:", data);
 
-      if (data.status === "ok") {
-        // Update local state
+      if (data.status !== "ok") {
+        // Revert on error
         setWords((prevWords) =>
           prevWords.map((w) =>
-            w.id === wordId ? { ...w, knowing_grade: newGrade } : w
+            w.id === wordId ? { ...w, knowing_grade: previousGrade ?? -1 } : w
           )
         );
+        throw new Error("Failed to update grade on server");
       }
     } catch (error) {
       console.error("[v0] Error updating word grade:", error);
+      // Revert on error
+      setWords((prevWords) =>
+        prevWords.map((w) =>
+          w.id === wordId ? { ...w, knowing_grade: previousGrade ?? -1 } : w
+        )
+      );
       toast({
         title: "שגיאה",
         description: "לא ניתן לעדכן את הציון",
@@ -431,32 +446,32 @@ export default function MemorizeUnitPage() {
               key={word.id}
               className={`p-4 rounded-xl ${getBackgroundColor(
                 word.knowing_grade
-              )} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 overflow-hidden`}
+              )} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex items-center justify-between gap-4`}
               style={{
                 animation: `fadeIn 0.3s ease-out ${index * 50}ms both`,
               }}
               dir="ltr"
             >
               {/* Word and Meaning (left side) */}
-              <div className="flex-1 flex flex-col min-w-0 w-full sm:w-auto">
+              <div className="flex-1 flex flex-col">
                 <button
                   onClick={() => toggleReveal(word.id)}
-                  className="text-left transition-transform hover:scale-[1.01] active:scale-100 w-full"
+                  className="text-left transition-transform hover:scale-[1.01] active:scale-100"
                 >
-                  <p className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200 break-words overflow-wrap-anywhere">
+                  <p className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200">
                     {word.word}
                   </p>
                 </button>
                 {/* Meaning (revealed) */}
                 {revealedWords.has(word.id) && (
-                  <p className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm break-words overflow-wrap-anywhere">
+                  <p className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm">
                     {word.meaning}
                   </p>
                 )}
               </div>
 
               {/* Grade Buttons (right side) */}
-              <div className="flex gap-2 shrink-0 flex-wrap sm:flex-nowrap w-full sm:w-auto justify-start sm:justify-end">
+              <div className="flex gap-2">
                 <Button
                   size="sm"
                   variant={word.knowing_grade === 0 ? "default" : "outline"}
