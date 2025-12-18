@@ -441,6 +441,35 @@ export default function MemorizeUnitPage() {
           )}
         </div>
 
+        {/* Pagination - Top */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-4 pt-4">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+              disabled={currentPage === 0}
+              className="rounded-xl"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+            <span className="text-sm text-muted-foreground">
+              עמוד {currentPage + 1} מתוך {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
+              }
+              disabled={currentPage === totalPages - 1}
+              className="rounded-xl"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+          </div>
+        )}
+
         {/* Words List */}
         <div className="space-y-3">
           {currentWords.map((word, index) => (
