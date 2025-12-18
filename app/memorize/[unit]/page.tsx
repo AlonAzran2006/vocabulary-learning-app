@@ -481,7 +481,7 @@ export default function MemorizeUnitPage() {
                   className="rounded-lg bg-red-600 hover:bg-red-700 text-white border-red-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
                   <XCircle className="h-4 w-4" />
-                  <span className="hidden sm:inline">לא יודע</span>
+                  לא יודע
                 </Button>
                 <Button
                   size="sm"
@@ -494,7 +494,7 @@ export default function MemorizeUnitPage() {
                   className="rounded-lg bg-yellow-600 hover:bg-yellow-700 text-white border-yellow-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
                   <HelpCircle className="h-4 w-4" />
-                  <span className="hidden sm:inline">בערך</span>
+                  בערך
                 </Button>
                 <Button
                   size="sm"
@@ -503,7 +503,7 @@ export default function MemorizeUnitPage() {
                   className="rounded-lg bg-green-600 hover:bg-green-700 text-white border-green-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
                   <CheckCircle2 className="h-4 w-4" />
-                  <span className="hidden sm:inline">יודע</span>
+                  יודע
                 </Button>
               </div>
             </div>
