@@ -262,16 +262,16 @@ export default function MemorizeUnitPage() {
     >
       <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1 min-w-0 flex-1">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground break-words">
               שינון יחידה {unit}
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               סה"כ {words.length} מילים | מציג {startIndex + 1}-{endIndex}
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 shrink-0">
             <Link href="/memorize">
               <Button
                 variant="outline"
@@ -363,22 +363,24 @@ export default function MemorizeUnitPage() {
         )}
 
         {/* Words per page selector */}
-        <div className="flex items-center gap-4 bg-card p-4 rounded-xl border shadow-sm">
-          <Label
-            htmlFor="pageSize"
-            className="text-sm font-medium whitespace-nowrap"
-          >
-            מילים בעמוד:
-          </Label>
-          <Input
-            id="pageSize"
-            type="number"
-            min="1"
-            max="100"
-            value={wordsPerPage}
-            onChange={(e) => handlePageSizeChange(e.target.value)}
-            className="w-20 rounded-lg"
-          />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 bg-card p-4 rounded-xl border shadow-sm">
+          <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
+            <Label
+              htmlFor="pageSize"
+              className="text-sm font-medium whitespace-nowrap"
+            >
+              מילים בעמוד:
+            </Label>
+            <Input
+              id="pageSize"
+              type="number"
+              min="1"
+              max="100"
+              value={wordsPerPage}
+              onChange={(e) => handlePageSizeChange(e.target.value)}
+              className="w-20 rounded-lg"
+            />
+          </div>
           <span className="text-xs text-muted-foreground">
             מסננים פעילים: {activeFilters.size || "ללא"}
           </span>
@@ -446,32 +448,32 @@ export default function MemorizeUnitPage() {
               key={word.id}
               className={`p-4 rounded-xl ${getBackgroundColor(
                 word.knowing_grade
-              )} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex items-center justify-between gap-4`}
+              )} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 overflow-hidden`}
               style={{
                 animation: `fadeIn 0.3s ease-out ${index * 50}ms both`,
               }}
               dir="ltr"
             >
               {/* Word and Meaning (left side) */}
-              <div className="flex-1 flex flex-col">
+              <div className="flex-1 flex flex-col min-w-0 w-full sm:w-auto">
                 <button
                   onClick={() => toggleReveal(word.id)}
-                  className="text-left transition-transform hover:scale-[1.01] active:scale-100"
+                  className="text-left transition-transform hover:scale-[1.01] active:scale-100 w-full"
                 >
-                  <p className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200">
+                  <p className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200 break-words">
                     {word.word}
                   </p>
                 </button>
                 {/* Meaning (revealed) */}
                 {revealedWords.has(word.id) && (
-                  <p className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm">
+                  <p className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm break-words">
                     {word.meaning}
                   </p>
                 )}
               </div>
 
               {/* Grade Buttons (right side) */}
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap sm:flex-nowrap shrink-0 w-full sm:w-auto justify-start sm:justify-end">
                 <Button
                   size="sm"
                   variant={word.knowing_grade === 0 ? "default" : "outline"}
@@ -479,7 +481,7 @@ export default function MemorizeUnitPage() {
                   className="rounded-lg bg-red-600 hover:bg-red-700 text-white border-red-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
                   <XCircle className="h-4 w-4" />
-                  לא יודע
+                  <span className="hidden sm:inline">לא יודע</span>
                 </Button>
                 <Button
                   size="sm"
@@ -492,7 +494,7 @@ export default function MemorizeUnitPage() {
                   className="rounded-lg bg-yellow-600 hover:bg-yellow-700 text-white border-yellow-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
                   <HelpCircle className="h-4 w-4" />
-                  בערך
+                  <span className="hidden sm:inline">בערך</span>
                 </Button>
                 <Button
                   size="sm"
@@ -501,7 +503,7 @@ export default function MemorizeUnitPage() {
                   className="rounded-lg bg-green-600 hover:bg-green-700 text-white border-green-600 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
                 >
                   <CheckCircle2 className="h-4 w-4" />
-                  יודע
+                  <span className="hidden sm:inline">יודע</span>
                 </Button>
               </div>
             </div>
