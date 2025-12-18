@@ -551,10 +551,10 @@ export default function TrainingPage() {
           <CardContent className="p-8 md:p-12 space-y-8">
             {/* English Word */}
             <div className="text-center space-y-6 overflow-hidden">
-              <div className="relative min-h-[120px] flex items-center justify-center">
+              <div className="relative min-h-[120px] flex items-center justify-center px-2 w-full">
                 <h2
                   key={currentWord.id}
-                  className="text-5xl md:text-6xl font-extrabold text-foreground break-words overflow-wrap-anywhere px-2 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent animate-slide-in-right"
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-foreground break-words overflow-wrap-anywhere w-full max-w-full bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent animate-slide-in-right"
                 >
                   {currentWord.word}
                 </h2>
