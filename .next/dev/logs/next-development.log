@@ -883,3 +883,46 @@ Incoming: %s useEffect [true] [, true]
 [12:52:51.352] Browser LOG     [v0] Server keep-alive ping sent
 [12:59:42.446] Browser LOG     [v0] Server keep-alive ping failed: {}
 [13:01:23.633] Browser LOG     [v0] Current training from localStorage: יחידות 1-2,4
+[13:02:50.597] Browser LOG     [v0] Server keep-alive ping sent
+[13:07:50.496] Browser LOG     [v0] Server keep-alive ping sent
+[13:12:50.560] Browser LOG     [v0] Server keep-alive ping sent
+[13:17:50.597] Browser LOG     [v0] Server keep-alive ping sent
+[13:22:51.385] Browser LOG     [v0] Server keep-alive ping sent
+[13:27:50.590] Browser LOG     [v0] Server keep-alive ping sent
+[13:32:50.622] Browser LOG     [v0] Server keep-alive ping sent
+[13:37:50.588] Browser LOG     [v0] Server keep-alive ping sent
+[13:42:50.563] Browser LOG     [v0] Server keep-alive ping sent
+[13:47:51.050] Browser LOG     [v0] Server keep-alive ping sent
+[13:52:50.589] Browser LOG     [v0] Server keep-alive ping sent
+[13:57:50.539] Browser LOG     [v0] Server keep-alive ping sent
+[14:02:50.545] Browser LOG     [v0] Server keep-alive ping sent
+[14:07:50.564] Browser LOG     [v0] Server keep-alive ping sent
+[15:19:54.950] Browser LOG     [v0] Server keep-alive ping failed: {}
+[15:22:50.542] Browser LOG     [v0] Server keep-alive ping sent
+[15:27:50.569] Browser LOG     [v0] Server keep-alive ping sent
+[15:32:50.562] Browser LOG     [v0] Server keep-alive ping sent
+[15:37:50.559] Browser LOG     [v0] Server keep-alive ping sent
+[15:41:10.679] Browser LOG     [v0] Current training from localStorage: יחידות 1-2,4
+[15:42:51.019] Browser LOG     [v0] Server keep-alive ping sent
+[15:47:50.628] Browser LOG     [v0] Server keep-alive ping sent
+[15:52:50.586] Browser LOG     [v0] Server keep-alive ping sent
+[15:57:50.794] Browser LOG     [v0] Server keep-alive ping sent
+[16:02:50.610] Browser LOG     [v0] Server keep-alive ping sent
+[16:27:36.516] Browser LOG     [v0] Server keep-alive ping sent
+[16:27:59.590] Browser LOG     [v0] Server keep-alive ping sent
+[16:32:50.966] Browser LOG     [v0] Server keep-alive ping sent
+[16:37:50.580] Browser LOG     [v0] Server keep-alive ping sent
+[16:42:50.739] Browser LOG     [v0] Server keep-alive ping sent
+[16:47:50.514] Browser LOG     [v0] Server keep-alive ping sent
+[16:52:50.798] Browser LOG     [v0] Server keep-alive ping sent
+[16:57:50.576] Browser LOG     [v0] Server keep-alive ping sent
+[17:02:50.594] Browser LOG     [v0] Server keep-alive ping sent
+[17:07:51.570] Browser LOG     [v0] Server keep-alive ping sent
+[17:12:50.515] Browser LOG     [v0] Server keep-alive ping sent
+[17:17:50.537] Browser LOG     [v0] Server keep-alive ping sent
+[17:22:51.432] Browser LOG     [v0] Server keep-alive ping sent
+[17:27:50.961] Browser LOG     [v0] Server keep-alive ping sent
+[17:32:50.573] Browser LOG     [v0] Server keep-alive ping sent
+[17:37:51.924] Browser LOG     [v0] Server keep-alive ping sent
+[17:42:52.760] Browser LOG     [v0] Server keep-alive ping sent
+[17:47:51.153] Browser LOG     [v0] Server keep-alive ping sent

@@ -26,13 +26,18 @@ import {
   clearMockTrainingQueue,
   getMockTrainings,
 } from "@/lib/mock-data";
+import {
+  initializeTrainingQueue,
+  submitGrade,
+  resumeTraining,
+  getCurrentWord,
+  getQueueStats,
+  getSyncData,
+  clearTrainingQueue,
+  type Word,
+} from "@/lib/training-queue";
 
-interface Word {
-  id: string;
-  word: string;
-  meaning: string;
-  file_index: number;
-}
+// Word interface is now imported from training-queue.ts
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
@@ -56,6 +61,12 @@ export default function TrainingPage() {
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [queueStats, setQueueStats] = useState({
+    totalWords: 0,
+    remainingWords: 0,
+    completedWords: 0,
+    progress: 0,
+  });
   const { toast } = useToast();
   const router = useRouter();
   const { user } = useAuth();
@@ -138,14 +149,28 @@ export default function TrainingPage() {
         return;
       }
 
-      console.log("[v0] Initializing training:", trainingName);
+      console.log(
+        "[v0] Initializing training with new client-side queue:",
+        trainingName
+      );
 
       const userUid = user?.uid;
       if (!userUid) {
         throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
       }
 
-      const response = await fetch("/api/proxy/load_training", {
+      // Try to resume existing training from localStorage
+      const resumed = resumeTraining();
+      if (resumed.currentWord && !resumed.trainingComplete) {
+        console.log("[v0] Resuming existing training from localStorage");
+        setCurrentWord(resumed.currentWord);
+        setQueueRemaining(resumed.queueSizeRemaining);
+        setIsLoading(false);
+        return;
+      }
+
+      // Load full training from server
+      const response = await fetch("/api/proxy/load_training_full", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -154,23 +179,40 @@ export default function TrainingPage() {
         }),
       });
 
-      console.log("[v0] Load training response status:", response.status);
+      console.log("[v0] Load training full response status:", response.status);
       const data = await response.json();
-      console.log("[v0] Load training data:", data);
+      console.log("[v0] Load training full data:", data);
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to load training");
+        throw new Error(data.error || data.detail || "Failed to load training");
       }
 
-      if (data.training_complete) {
+      if (data.training_complete || !data.words || data.words.length === 0) {
         setIsCompleted(true);
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 5000);
-        // Clear the training name when training is completed
         localStorage.removeItem("currentTrainingName");
       } else {
-        setCurrentWord(data.first_word);
-        setQueueRemaining(data.queue_size_remaining);
+        // Initialize client-side queue with all words
+        initializeTrainingQueue(
+          trainingName,
+          data.words,
+          data.user_grades || {}
+        );
+
+        // Get first word from queue
+        const firstWord = getCurrentWord();
+        if (firstWord) {
+          setCurrentWord(firstWord);
+          setQueueRemaining(data.words.length - 1);
+          setTotalWords(0); // Reset counter
+          // Initialize queue stats
+          const stats = getQueueStats();
+          setQueueStats(stats);
+        } else {
+          setIsCompleted(true);
+          localStorage.removeItem("currentTrainingName");
+        }
       }
     } catch (error) {
       console.error("Error initializing training:", error);
@@ -239,34 +281,13 @@ export default function TrainingPage() {
         return;
       }
 
-      console.log("[v0] Submitting grade:", {
+      console.log("[v0] Submitting grade (client-side):", {
         word_id: currentWord.id,
         grade: selectedGrade,
       });
 
-      const userUid = user?.uid;
-      if (!userUid) {
-        throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
-      }
-
-      const response = await fetch("/api/proxy/update_knowing_grade", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_uid: userUid,
-          file_index: currentWord.file_index,
-          word_id: currentWord.id,
-          test_grade: selectedGrade,
-        }),
-      });
-
-      console.log("[v0] Update grade response status:", response.status);
-      const data = await response.json();
-      console.log("[v0] Update grade data:", data);
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to update grade");
-      }
+      // Use client-side queue management (no server call needed!)
+      const result = submitGrade(selectedGrade as -1 | 0 | 1);
 
       setTotalWords((prev) => prev + 1);
       setGradesHistory((prev) => [...prev, selectedGrade]);
@@ -285,17 +306,51 @@ export default function TrainingPage() {
       }
 
       setTimeout(() => {
-        if (data.training_complete) {
+        if (result.trainingComplete) {
+          // Training complete - sync all updates to server
+          const syncData = getSyncData();
+          if (syncData) {
+            const userUid = user?.uid;
+            if (userUid) {
+              // Sync in background (don't wait for response)
+              fetch("/api/proxy/sync_training_updates", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  user_uid: userUid,
+                  training_name: syncData.trainingName,
+                  grade_updates: syncData.gradeUpdates,
+                  removed_ids: syncData.removedIds,
+                  added_to_end: syncData.addedToEnd,
+                }),
+              }).catch((err) => {
+                console.error("Failed to sync updates:", err);
+                // Don't show error to user - it's background sync
+              });
+            }
+          }
+
           setIsCompleted(true);
           setShowConfetti(true);
           setTimeout(() => setShowConfetti(false), 5000);
-          // Clear the training name when training is completed
           localStorage.removeItem("currentTrainingName");
+          clearTrainingQueue();
+          setQueueStats({
+            totalWords: 0,
+            remainingWords: 0,
+            completedWords: 0,
+            progress: 100,
+          });
         } else {
-          setCurrentWord(data.next_word);
+          setCurrentWord(result.nextWord);
           setShowMeaning(false);
           setSelectedGrade(null);
-          setQueueRemaining((prev) => (data.next_word ? prev - 1 : 0));
+          setQueueRemaining(result.queueSizeRemaining);
+          // Update queue stats
+          if (!DEV_MODE) {
+            const stats = getQueueStats();
+            setQueueStats(stats);
+          }
         }
       }, 300);
     } catch (error) {
@@ -491,14 +546,18 @@ export default function TrainingPage() {
               </div>
               <div className="flex items-center gap-4 text-sm">
                 <span className="text-muted-foreground">
-                  {totalWords} מתוך {totalWords + queueRemaining}
+                  {DEV_MODE
+                    ? `${totalWords} מתוך ${totalWords + queueRemaining}`
+                    : `${queueStats.completedWords} מתוך ${queueStats.totalWords}`}
                 </span>
                 <span className="font-bold text-primary">
-                  {queueRemaining > 0
-                    ? Math.round(
-                        (totalWords / (totalWords + queueRemaining)) * 100
-                      )
-                    : 100}
+                  {DEV_MODE
+                    ? queueRemaining > 0
+                      ? Math.round(
+                          (totalWords / (totalWords + queueRemaining)) * 100
+                        )
+                      : 100
+                    : Math.round(queueStats.progress)}
                   %
                 </span>
               </div>
@@ -508,15 +567,19 @@ export default function TrainingPage() {
                 className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full transition-all duration-500 ease-out shadow-sm"
                 style={{
                   width: `${
-                    queueRemaining > 0
-                      ? (totalWords / (totalWords + queueRemaining)) * 100
-                      : 100
+                    DEV_MODE
+                      ? queueRemaining > 0
+                        ? (totalWords / (totalWords + queueRemaining)) * 100
+                        : 100
+                      : queueStats.progress
                   }%`,
                 }}
               />
             </div>
             <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>נותרו: {queueRemaining}</span>
+              <span>
+                נותרו: {DEV_MODE ? queueRemaining : queueStats.remainingWords}
+              </span>
               {totalWords > 0 && (
                 <div className="flex items-center gap-4">
                   <span className="flex items-center gap-1">

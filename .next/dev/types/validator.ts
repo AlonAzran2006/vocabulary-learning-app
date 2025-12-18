@@ -155,6 +155,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/proxy/load_training_full/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/proxy/load_training_full">> = Specific
+  const handler = {} as typeof import("../../../app/api/proxy/load_training_full/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/api/proxy/memorization_update_word/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/proxy/memorization_update_word">> = Specific
@@ -168,6 +177,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/proxy/memorize_unit">> = Specific
   const handler = {} as typeof import("../../../app/api/proxy/memorize_unit/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/proxy/sync_training_updates/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/proxy/sync_training_updates">> = Specific
+  const handler = {} as typeof import("../../../app/api/proxy/sync_training_updates/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
