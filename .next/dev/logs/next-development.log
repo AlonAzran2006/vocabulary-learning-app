@@ -965,3 +965,30 @@ Incoming: %s useEffect [true] [, true]
 [36:52:50.721] Browser LOG     [v0] Server keep-alive ping sent
 [36:57:50.792] Browser LOG     [v0] Server keep-alive ping sent
 [37:03:03.044] Browser LOG     [v0] Server keep-alive ping sent
+[37:07:50.602] Browser LOG     [v0] Server keep-alive ping sent
+[37:09:13.709] Server  LOG      ✓ Compiled in 286ms
+[37:09:31.418] Server  LOG      ✓ Compiled in 129ms
+[37:09:39.817] Server  LOG      ✓ Compiled in 77ms
+[37:09:53.734] Server  LOG      ✓ Compiled in 89ms
+[37:09:55.728] Server  LOG      ✓ Compiled in 68ms
+[37:10:12.490] Server  LOG      ✓ Compiled in 147ms
+[37:10:12.625] Server  LOG      ✓ Compiled in 79ms
+[37:11:31.806] Browser LOG     [v0] Current training from localStorage: יחידות 1-2,4
+[37:11:32.160] Browser LOG     [v0] Dev mode: Initializing mock training
+[37:11:32.160] Browser LOG     [v0] Dev mode: Resuming existing training from localStorage: יחידות 1-2,4
+[37:11:32.160] Browser LOG     [v0] Dev mode: Initializing mock training
+[37:11:32.160] Browser LOG     [v0] Dev mode: Resuming existing training from localStorage: יחידות 1-2,4
+[37:11:32.160] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/training color: rgb(120, 120, 120) color: inherit {"dp":"/training","o":"http://localhost:3000/training","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766145842014}
+[37:11:36.615] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:37.790] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:38.847] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:39.831] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:40.709] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:41.565] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:42.465] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:43.251] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:44.108] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:44.983] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:45.999] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:47.054] Browser LOG     [v0] Dev mode: Submitting mock grade
+[37:11:48.432] Browser LOG     [v0] Dev mode: Submitting mock grade

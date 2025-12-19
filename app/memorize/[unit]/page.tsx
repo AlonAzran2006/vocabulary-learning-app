@@ -477,25 +477,37 @@ export default function MemorizeUnitPage() {
               key={word.id}
               className={`p-4 rounded-xl ${getBackgroundColor(
                 word.knowing_grade
-              )} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 overflow-hidden`}
+              )} shadow-md transition-all duration-300 hover:shadow-xl hover:scale-[1.01] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4`}
               style={{
                 animation: `fadeIn 0.3s ease-out ${index * 50}ms both`,
               }}
               dir="ltr"
             >
               {/* Word and Meaning (left side) */}
-              <div className="flex-1 flex flex-col min-w-0 w-full sm:w-auto">
+              <div className="flex-1 flex flex-col min-w-0 w-full sm:w-auto overflow-visible">
                 <button
                   onClick={() => toggleReveal(word.id)}
-                  className="text-left transition-transform hover:scale-[1.01] active:scale-100 w-full"
+                  className="text-left transition-transform hover:scale-[1.01] active:scale-100 w-full overflow-visible"
                 >
-                  <p className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200 break-words">
+                  <p
+                    className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200 break-words overflow-wrap-anywhere pr-2"
+                    style={{
+                      wordBreak: "break-word",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
                     {word.word}
                   </p>
                 </button>
                 {/* Meaning (revealed) */}
                 {revealedWords.has(word.id) && (
-                  <p className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm break-words">
+                  <p
+                    className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm break-words overflow-wrap-anywhere pr-2"
+                    style={{
+                      wordBreak: "break-word",
+                      overflowWrap: "anywhere",
+                    }}
+                  >
                     {word.meaning}
                   </p>
                 )}
