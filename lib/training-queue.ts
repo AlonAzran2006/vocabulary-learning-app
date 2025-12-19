@@ -247,14 +247,29 @@ export function clearTrainingQueue(): void {
 
 /**
  * Resume training from saved state
+ * Only resumes if the training name matches the requested training
  */
-export function resumeTraining(): {
+export function resumeTraining(trainingName?: string): {
   currentWord: Word | null;
   queueSizeRemaining: number;
   trainingComplete: boolean;
 } {
   const queue = loadTrainingQueue();
   if (!queue || queue.words.length === 0) {
+    return {
+      currentWord: null,
+      queueSizeRemaining: 0,
+      trainingComplete: true,
+    };
+  }
+
+  // If trainingName is provided, only resume if it matches
+  if (trainingName && queue.trainingName !== trainingName) {
+    console.log(
+      `[v0] Training name mismatch: requested "${trainingName}", found "${queue.trainingName}". Clearing old training.`
+    );
+    // Clear the old training queue since it doesn't match
+    clearTrainingQueue();
     return {
       currentWord: null,
       queueSizeRemaining: 0,

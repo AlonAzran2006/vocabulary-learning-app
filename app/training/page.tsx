@@ -114,11 +114,20 @@ export default function TrainingPage() {
               queue.trainingName === trainingName &&
               queue.currentIndex < queue.words.length
             ) {
+              console.log(
+                `[v0] Dev mode: Resuming existing training from localStorage: ${trainingName}`
+              );
               const currentWord = queue.words[queue.currentIndex];
               setCurrentWord(currentWord);
               setQueueRemaining(queue.words.length - queue.currentIndex - 1);
               setIsLoading(false);
               return;
+            } else if (queue.trainingName !== trainingName) {
+              // Training name doesn't match, clear old training
+              console.log(
+                `[v0] Dev mode: Training name mismatch: requested "${trainingName}", found "${queue.trainingName}". Clearing old training.`
+              );
+              localStorage.removeItem("mock_training_queue");
             }
           } catch {
             // If parsing fails, continue to initialize new training
@@ -160,9 +169,12 @@ export default function TrainingPage() {
       }
 
       // Try to resume existing training from localStorage
-      const resumed = resumeTraining();
+      // Only resume if the training name matches
+      const resumed = resumeTraining(trainingName);
       if (resumed.currentWord && !resumed.trainingComplete) {
-        console.log("[v0] Resuming existing training from localStorage");
+        console.log(
+          `[v0] Resuming existing training from localStorage: ${trainingName}`
+        );
         setCurrentWord(resumed.currentWord);
         setQueueRemaining(resumed.queueSizeRemaining);
         setIsLoading(false);
