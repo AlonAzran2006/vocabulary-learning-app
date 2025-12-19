@@ -337,7 +337,7 @@ export default function TrainingsPage() {
         throw new Error("לא זוהה משתמש מחובר. נא להתחבר ולנסות שוב.");
       }
 
-      const response = await fetch(`${BACKEND_URL}/load_training`, {
+      const response = await fetch("/api/proxy/load_training", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
