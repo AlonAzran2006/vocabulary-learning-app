@@ -622,15 +622,24 @@ export default function TrainingPage() {
         </Card>
 
         {/* Word Card */}
-        <Card className="overflow-hidden shadow-2xl border-2">
+        <Card className="shadow-2xl border-2">
           <CardContent className="p-8 md:p-12 space-y-8">
             {/* English Word */}
             <div className="text-center space-y-6">
-              <div className="relative min-h-[120px] flex items-center justify-center px-4 md:px-6 w-full overflow-visible">
+              <div
+                className="relative min-h-[120px] flex items-center justify-center px-4 md:px-6 w-full"
+                style={{ minWidth: 0 }}
+              >
                 <h2
                   key={currentWord.id}
-                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-foreground break-words overflow-wrap-anywhere w-full max-w-full px-2 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent animate-slide-in-right"
-                  style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-foreground break-words w-full px-2 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent animate-slide-in-right"
+                  style={{
+                    wordBreak: "break-word",
+                    overflowWrap: "anywhere",
+                    hyphens: "auto",
+                    maxWidth: "100%",
+                    overflow: "visible",
+                  }}
                 >
                   {currentWord.word}
                 </h2>
@@ -652,13 +661,17 @@ export default function TrainingPage() {
                 ) : (
                   <div
                     key={`meaning-${currentWord.id}`}
-                    className="w-full p-8 rounded-2xl animate-fade-in bg-gradient-to-br from-secondary/50 to-secondary/30 border-2 border-primary/20 overflow-visible"
+                    className="w-full p-8 rounded-2xl animate-fade-in bg-gradient-to-br from-secondary/50 to-secondary/30 border-2 border-primary/20"
+                    style={{ minWidth: 0 }}
                   >
                     <p
-                      className="text-3xl md:text-4xl font-bold text-foreground break-words overflow-wrap-anywhere leading-relaxed px-2"
+                      className="text-3xl md:text-4xl font-bold text-foreground break-words leading-relaxed px-2"
                       style={{
                         wordBreak: "break-word",
                         overflowWrap: "anywhere",
+                        hyphens: "auto",
+                        maxWidth: "100%",
+                        overflow: "visible",
                       }}
                     >
                       {currentWord.meaning}

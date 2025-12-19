@@ -21,6 +21,18 @@ const MOCK_WORDS: MockWord[] = [
   { id: "w_3", word: "computer", meaning: "מחשב", file_index: 1 },
   { id: "w_4", word: "school", meaning: "בית ספר", file_index: 1 },
   { id: "w_5", word: "book", meaning: "ספר", file_index: 1 },
+  {
+    id: "w_21",
+    word: "in light of",
+    meaning: "לאור, בהתחשב ב-",
+    file_index: 1,
+  },
+  {
+    id: "w_22",
+    word: "so long as",
+    meaning: "כל עוד, בתנאי ש-",
+    file_index: 1,
+  },
   { id: "w_6", word: "friend", meaning: "חבר", file_index: 2 },
   { id: "w_7", word: "house", meaning: "בית", file_index: 2 },
   { id: "w_8", word: "family", meaning: "משפחה", file_index: 2 },
@@ -42,7 +54,7 @@ const MOCK_WORDS: MockWord[] = [
 export const DEFAULT_MOCK_TRAININGS: MockTraining[] = [
   {
     name: "מילים בסיסיות - יחידות 1-2",
-    wordCount: 10,
+    wordCount: 12,
     lastModified: Math.floor(Date.now() / 1000) - 86400, // יום אחד לפני
     fileIndexes: [1, 2],
   },

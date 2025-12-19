@@ -484,16 +484,23 @@ export default function MemorizeUnitPage() {
               dir="ltr"
             >
               {/* Word and Meaning (left side) */}
-              <div className="flex-1 flex flex-col min-w-0 w-full sm:w-auto overflow-visible">
+              <div
+                className="flex-1 flex flex-col min-w-0 w-full sm:w-auto"
+                style={{ minWidth: 0 }}
+              >
                 <button
                   onClick={() => toggleReveal(word.id)}
-                  className="text-left transition-transform hover:scale-[1.01] active:scale-100 w-full overflow-visible"
+                  className="text-left transition-transform hover:scale-[1.01] active:scale-100 w-full"
+                  style={{ minWidth: 0 }}
                 >
                   <p
-                    className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200 break-words overflow-wrap-anywhere pr-2"
+                    className="text-xl font-bold text-white drop-shadow-sm hover:text-gray-100 transition-colors duration-200 break-words pr-2"
                     style={{
                       wordBreak: "break-word",
                       overflowWrap: "anywhere",
+                      hyphens: "auto",
+                      maxWidth: "100%",
+                      overflow: "visible",
                     }}
                   >
                     {word.word}
@@ -502,10 +509,13 @@ export default function MemorizeUnitPage() {
                 {/* Meaning (revealed) */}
                 {revealedWords.has(word.id) && (
                   <p
-                    className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm break-words overflow-wrap-anywhere pr-2"
+                    className="text-base text-white/95 animate-fade-in mt-2 drop-shadow-sm break-words pr-2"
                     style={{
                       wordBreak: "break-word",
                       overflowWrap: "anywhere",
+                      hyphens: "auto",
+                      maxWidth: "100%",
+                      overflow: "visible",
                     }}
                   >
                     {word.meaning}

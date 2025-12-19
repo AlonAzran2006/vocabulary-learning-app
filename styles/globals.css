@@ -123,3 +123,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Ensure text doesn't get cut off in word containers */
+  .word-container {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  /* Prevent text clipping in flex containers */
+  .flex > * {
+    min-width: 0;
+  }
+}

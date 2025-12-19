@@ -996,3 +996,34 @@ Incoming: %s useEffect [true] [, true]
 [37:17:51.945] Browser LOG     [v0] Server keep-alive ping sent
 [37:22:51.317] Browser LOG     [v0] Server keep-alive ping sent
 [38:14:13.153] Browser LOG     [v0] Server keep-alive ping failed: {}
+[38:17:50.586] Browser LOG     [v0] Server keep-alive ping sent
+[38:22:50.946] Browser LOG     [v0] Server keep-alive ping sent
+[38:27:50.937] Browser LOG     [v0] Server keep-alive ping sent
+[38:29:18.859] Server  LOG      ✓ Compiled in 123ms
+[38:29:23.823] Server  LOG      ✓ Compiled in 66ms
+[38:32:50.797] Browser LOG     [v0] Server keep-alive ping sent
+[38:33:40.069] Browser LOG     [v0] Current training from localStorage: יחידות 1-2,4
+[38:33:40.069] Browser LOG     [v0] Current training from localStorage: יחידות 1-2,4
+[38:33:40.069] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766150769828}
+[38:34:00.620] Browser LOG     [v0] Dev mode: Loading mock trainings
+[38:34:00.620] Browser LOG     [v0] Dev mode: Loading mock trainings
+[38:34:00.620] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/trainings color: rgb(120, 120, 120) color: inherit {"dp":"/trainings","o":"http://localhost:3000/trainings","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766150790349}
+[38:34:04.690] Browser LOG     [v0] Dev mode: Loading mock training
+[38:34:05.382] Browser LOG     [v0] Dev mode: Initializing mock training
+[38:34:05.382] Browser LOG     [v0] Dev mode: Resuming existing training from localStorage: יחידות 1-2,4
+[38:34:05.383] Browser LOG     [v0] Dev mode: Initializing mock training
+[38:34:05.383] Browser LOG     [v0] Dev mode: Resuming existing training from localStorage: יחידות 1-2,4
+[38:34:05.383] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/training color: rgb(120, 120, 120) color: inherit {"dp":"/training","o":"http://localhost:3000/training","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766150795148}
+[38:34:11.240] Browser LOG     [v0] Dev mode: Submitting mock grade
+[38:34:12.858] Browser LOG     [v0] Dev mode: Submitting mock grade
+[38:34:13.807] Browser LOG     [v0] Dev mode: Submitting mock grade
+[38:34:14.708] Browser LOG     [v0] Dev mode: Submitting mock grade
+[38:34:15.342] Browser LOG     [v0] Dev mode: Submitting mock grade
+[38:34:15.919] Browser LOG     [v0] Dev mode: Submitting mock grade
+[38:36:06.690] Server  LOG      ✓ Compiled in 106ms
+[38:36:11.054] Server  LOG      ✓ Compiled in 87ms
+[38:36:28.059] Server  LOG      ✓ Compiled in 81ms
+[38:36:33.836] Server  LOG      ✓ Compiled in 67ms
+[38:36:37.800] Server  LOG      ✓ Compiled in 70ms
+[38:37:07.042] Server  LOG      ✓ Compiled in 98ms
+[38:37:50.522] Browser LOG     [v0] Server keep-alive ping sent
