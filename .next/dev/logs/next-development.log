@@ -926,3 +926,34 @@ Incoming: %s useEffect [true] [, true]
 [17:37:51.924] Browser LOG     [v0] Server keep-alive ping sent
 [17:42:52.760] Browser LOG     [v0] Server keep-alive ping sent
 [17:47:51.153] Browser LOG     [v0] Server keep-alive ping sent
+[17:52:50.559] Browser LOG     [v0] Server keep-alive ping sent
+[17:57:51.668] Browser LOG     [v0] Server keep-alive ping sent
+[18:02:51.816] Browser LOG     [v0] Server keep-alive ping sent
+[18:07:50.981] Browser LOG     [v0] Server keep-alive ping sent
+[18:13:00.038] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\.next\dev\server\chunks\[root-of-the-server]__1115b61f._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.041] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.069] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\.next\dev\server\chunks\node_modules_next_06c8a4f6._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.070] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.071] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.072] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.073] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.075] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.076] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[18:13:00.080] Server  ERROR   Proxy error: TypeError: fetch failed
+[18:13:00.192] Browser LOG     [v0] Server keep-alive ping sent
+[35:26:51.762] Browser LOG     [v0] Server keep-alive ping failed: {}
+[35:26:51.762] Browser LOG     [v0] Server keep-alive ping failed: {}
+[35:27:50.894] Browser LOG     [v0] Server keep-alive ping sent
+[35:32:52.943] Browser LOG     [v0] Server keep-alive ping sent
+[35:37:51.220] Browser LOG     [v0] Server keep-alive ping sent
+[35:42:50.563] Browser LOG     [v0] Server keep-alive ping sent
+[35:47:50.542] Browser LOG     [v0] Server keep-alive ping sent
+[35:52:50.985] Browser LOG     [v0] Server keep-alive ping sent
+[35:57:51.582] Browser LOG     [v0] Server keep-alive ping sent
+[36:02:51.612] Browser LOG     [v0] Server keep-alive ping sent
+[36:05:09.710] Browser LOG     [v0] Current training from localStorage: יחידות 1-2,4
+[36:05:47.376] Browser LOG     [v0] Current training from localStorage: יחידות 1-2,4
+[36:07:51.104] Browser LOG     [v0] Server keep-alive ping sent
+[36:12:50.587] Browser LOG     [v0] Server keep-alive ping sent
+[36:17:50.896] Browser LOG     [v0] Server keep-alive ping sent
+[36:22:51.335] Browser LOG     [v0] Server keep-alive ping sent
