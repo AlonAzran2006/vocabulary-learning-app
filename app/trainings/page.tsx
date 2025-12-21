@@ -40,9 +40,7 @@ interface Training {
   lastModified?: number;
 }
 
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL ||
-  "https://word-psicho-server.onrender.com";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 // Check if dev mode is enabled
 const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true";

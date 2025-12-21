@@ -1027,3 +1027,39 @@ Incoming: %s useEffect [true] [, true]
 [38:36:37.800] Server  LOG      ✓ Compiled in 70ms
 [38:37:07.042] Server  LOG      ✓ Compiled in 98ms
 [38:37:50.522] Browser LOG     [v0] Server keep-alive ping sent
+[38:42:51.015] Browser LOG     [v0] Server keep-alive ping sent
+[38:48:38.878] Browser LOG     [v0] Server keep-alive ping sent
+[38:53:39.875] Browser LOG     [v0] Server keep-alive ping sent
+[38:57:50.956] Browser LOG     [v0] Server keep-alive ping sent
+[39:02:50.583] Browser LOG     [v0] Server keep-alive ping sent
+[46:29:08.873] Browser LOG     [v0] Server keep-alive ping failed: {}
+[46:29:08.873] Browser LOG     [v0] Server keep-alive ping failed: {}
+[46:32:50.054] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\.next\dev\server\chunks\[root-of-the-server]__1115b61f._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.062] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.064] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\.next\dev\server\chunks\node_modules_next_06c8a4f6._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.068] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.070] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.071] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.072] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.073] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.075] Server  ERROR   C:\Users\alona\מסמכים\vocabulary-learning-app\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[46:32:50.083] Server  ERROR   Proxy error: TypeError: fetch failed
+[46:32:50.192] Browser LOG     [v0] Server keep-alive ping sent
+[46:37:50.623] Browser LOG     [v0] Server keep-alive ping sent
+[46:42:50.518] Browser LOG     [v0] Server keep-alive ping sent
+[46:47:50.664] Browser LOG     [v0] Server keep-alive ping sent
+[46:52:50.576] Browser LOG     [v0] Server keep-alive ping sent
+[46:57:50.532] Browser LOG     [v0] Server keep-alive ping sent
+[47:02:50.517] Browser LOG     [v0] Server keep-alive ping sent
+[47:07:50.563] Browser LOG     [v0] Server keep-alive ping sent
+[47:12:50.645] Browser LOG     [v0] Server keep-alive ping sent
+[84:04:26.441] Browser LOG     [v0] Server keep-alive ping failed: {}
+[84:04:26.441] Browser LOG     [v0] Server keep-alive ping failed: {}
+[84:08:38.874] Browser LOG     [v0] Server keep-alive ping sent
+[84:12:51.030] Browser LOG     [v0] Server keep-alive ping sent
+[84:17:50.581] Browser LOG     [v0] Server keep-alive ping sent
+[84:18:09.590] Server  LOG      ✓ Compiled in 148ms
+[84:18:10.802] Server  LOG      ✓ Compiled in 89ms
+[84:20:39.582] Server  LOG      ✓ Compiled in 86ms
+[84:20:40.727] Server  LOG      ✓ Compiled in 71ms
+[84:22:50.673] Browser LOG     [v0] Server keep-alive ping sent
