@@ -147,7 +147,14 @@ export default function TrainingsPage() {
             : new Date().toISOString(),
           wordCount: t.wordCount,
           lastModified: t.lastModified,
+          dataType: t.dataType || DEFAULT_DATA_TYPE,
         }));
+        // Sort by last usage date (lastModified) - most recent first
+        formattedTrainings.sort((a, b) => {
+          const aDate = a.lastModified || 0;
+          const bDate = b.lastModified || 0;
+          return bDate - aDate; // Descending order
+        });
         setTrainings(formattedTrainings);
         return;
       }
@@ -192,6 +199,12 @@ export default function TrainingsPage() {
             dataType: (t as any).data_type || DEFAULT_DATA_TYPE,
           })
         );
+        // Sort by last usage date (lastModified) - most recent first
+        formattedTrainings.sort((a, b) => {
+          const aDate = a.lastModified || 0;
+          const bDate = b.lastModified || 0;
+          return bDate - aDate; // Descending order
+        });
         setTrainings(formattedTrainings);
       }
     } catch (error) {
@@ -241,7 +254,13 @@ export default function TrainingsPage() {
           dataType: mockTraining.dataType || DEFAULT_DATA_TYPE,
         };
 
-        setTrainings([newTraining, ...trainings]);
+        // Sort by last usage date (lastModified) - most recent first
+        const updatedTrainings = [newTraining, ...trainings].sort((a, b) => {
+          const aDate = a.lastModified || 0;
+          const bDate = b.lastModified || 0;
+          return bDate - aDate; // Descending order
+        });
+        setTrainings(updatedTrainings);
         setIsDialogOpen(false);
         setTrainingName("");
         setSelectedFileIndexes([]);
@@ -296,7 +315,13 @@ export default function TrainingsPage() {
         dataType: selectedDataType,
       };
 
-      setTrainings([newTraining, ...trainings]);
+      // Sort by last usage date (lastModified) - most recent first
+      const updatedTrainings = [newTraining, ...trainings].sort((a, b) => {
+        const aDate = a.lastModified || 0;
+        const bDate = b.lastModified || 0;
+        return bDate - aDate; // Descending order
+      });
+      setTrainings(updatedTrainings);
       setIsDialogOpen(false);
       setTrainingName("");
       setSelectedFileIndexes([]);
@@ -504,11 +529,11 @@ export default function TrainingsPage() {
                         className={`h-16 text-base rounded-xl font-semibold transition-all border-2 ${
                           isSelected
                             ? isEnglish
-                              ? "bg-blue-500/10 border-blue-500 text-blue-600 dark:text-blue-400 shadow-lg scale-[1.02] ring-2 ring-blue-500/50"
-                              : "bg-emerald-500/10 border-emerald-500 text-emerald-600 dark:text-emerald-400 shadow-lg scale-[1.02] ring-2 ring-emerald-500/50"
+                              ? "bg-blue-500 border-blue-500 text-white shadow-lg scale-[1.02] ring-2 ring-blue-500/50 hover:bg-blue-500 hover:border-blue-500"
+                              : "bg-emerald-500 border-emerald-500 text-white shadow-lg scale-[1.02] ring-2 ring-emerald-500/50 hover:bg-emerald-500 hover:border-emerald-500"
                             : isEnglish
-                            ? "hover:bg-blue-500/5 hover:border-blue-500/50 hover:scale-[1.02]"
-                            : "hover:bg-emerald-500/5 hover:border-emerald-500/50 hover:scale-[1.02]"
+                            ? "bg-white border-2 hover:bg-blue-500 hover:border-blue-500 hover:text-white shadow-sm hover:scale-[1.02]"
+                            : "bg-white border-2 hover:bg-emerald-500 hover:border-emerald-500 hover:text-white shadow-sm hover:scale-[1.02]"
                         }`}
                       >
                         {dataTypeInfo.label}
@@ -550,13 +575,16 @@ export default function TrainingsPage() {
                 <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto p-1">
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => {
                     const isSelected = selectedFileIndexes.includes(num);
+                    const isEnglish = selectedDataType === "en_he";
                     return (
                       <label
                         key={num}
                         className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer transition-all border-2 ${
                           isSelected
-                            ? "bg-primary/10 border-primary shadow-md scale-[1.02]"
-                            : "border-border hover:bg-secondary hover:border-primary/50 hover:scale-[1.01]"
+                            ? isEnglish
+                              ? "bg-blue-500 border-blue-500 shadow-md scale-[1.02]"
+                              : "bg-emerald-500 border-emerald-500 shadow-md scale-[1.02]"
+                            : "border-border bg-background hover:scale-[1.01]"
                         }`}
                       >
                         <input
@@ -576,7 +604,11 @@ export default function TrainingsPage() {
                           }}
                           className="w-5 h-5 rounded border-2 cursor-pointer"
                         />
-                        <span className={`text-sm font-medium ${isSelected ? "text-primary font-semibold" : "text-foreground"}`}>
+                        <span className={`text-sm font-medium ${
+                          isSelected 
+                            ? "text-white font-semibold" 
+                            : "text-foreground"
+                        }`}>
                           יחידה {num}
                         </span>
                       </label>
@@ -588,7 +620,11 @@ export default function TrainingsPage() {
               <Button
                 onClick={handleCreateTraining}
                 disabled={isCreating}
-                className="w-full h-14 text-lg font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl disabled:opacity-50"
+                className={`w-full h-14 text-lg font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 text-white shadow-lg hover:shadow-xl disabled:opacity-50 border-2 ${
+                  selectedDataType === "en_he"
+                    ? "bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600"
+                    : "bg-emerald-500 border-emerald-500 hover:bg-emerald-600 hover:border-emerald-600"
+                }`}
               >
                 {isCreating ? (
                   <>
