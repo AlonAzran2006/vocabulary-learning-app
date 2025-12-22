@@ -1378,3 +1378,15 @@ Incoming: %s useEffect [, true] [, en_he, true]
 [00:59:14.400] Browser LOG     [v0] Dev mode: Loading mock trainings
 [00:59:14.400] Browser LOG     [v0] Dev mode: Loading mock trainings
 [00:59:14.400] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/trainings color: rgb(120, 120, 120) color: inherit {"dp":"/trainings","o":"http://localhost:3000/trainings","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766426968119}
+[01:03:01.343] Browser LOG     [v0] Current training from localStorage: יחידה 1
+[01:03:01.343] Browser LOG     [v0] Current training from localStorage: יחידה 1
+[01:03:01.343] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766427195086}
+[01:03:04.718] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/memorize color: rgb(120, 120, 120) color: inherit {"dp":"/memorize","o":"http://localhost:3000/memorize","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766427198469}
+[01:03:05.742] Browser LOG     [v0] Current training from localStorage: יחידה 1
+[01:03:05.743] Browser LOG     [v0] Current training from localStorage: יחידה 1
+[01:03:05.743] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766427199485}
+[01:03:06.493] Browser LOG     [v0] Dev mode: Loading mock trainings
+[01:03:06.493] Browser LOG     [v0] Dev mode: Loading mock trainings
+[01:03:06.493] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/trainings color: rgb(120, 120, 120) color: inherit {"dp":"/trainings","o":"http://localhost:3000/trainings","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1766427200215}
+[01:05:08.269] Server  LOG      ✓ Compiled in 118ms
+[01:05:22.536] Server  LOG      ✓ Compiled in 122ms

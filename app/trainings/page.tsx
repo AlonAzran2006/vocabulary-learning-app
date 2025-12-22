@@ -492,21 +492,29 @@ export default function TrainingsPage() {
                   שפה
                 </Label>
                 <div className="grid grid-cols-2 gap-3">
-                  {getAllDataTypes().map((dataTypeInfo) => (
-                    <Button
-                      key={dataTypeInfo.code}
-                      type="button"
-                      variant={selectedDataType === dataTypeInfo.code ? "default" : "outline"}
-                      onClick={() => setSelectedDataType(dataTypeInfo.code)}
-                      className={`h-16 text-base rounded-xl font-semibold transition-all ${
-                        selectedDataType === dataTypeInfo.code
-                          ? "shadow-lg scale-[1.02] ring-2 ring-primary/50"
-                          : "hover:scale-[1.02] border-2"
-                      }`}
-                    >
-                      {dataTypeInfo.label}
-                    </Button>
-                  ))}
+                  {getAllDataTypes().map((dataTypeInfo) => {
+                    const isSelected = selectedDataType === dataTypeInfo.code;
+                    const isEnglish = dataTypeInfo.code === "en_he";
+                    return (
+                      <Button
+                        key={dataTypeInfo.code}
+                        type="button"
+                        variant="outline"
+                        onClick={() => setSelectedDataType(dataTypeInfo.code)}
+                        className={`h-16 text-base rounded-xl font-semibold transition-all border-2 ${
+                          isSelected
+                            ? isEnglish
+                              ? "bg-blue-500/10 border-blue-500 text-blue-600 dark:text-blue-400 shadow-lg scale-[1.02] ring-2 ring-blue-500/50"
+                              : "bg-emerald-500/10 border-emerald-500 text-emerald-600 dark:text-emerald-400 shadow-lg scale-[1.02] ring-2 ring-emerald-500/50"
+                            : isEnglish
+                            ? "hover:bg-blue-500/5 hover:border-blue-500/50 hover:scale-[1.02]"
+                            : "hover:bg-emerald-500/5 hover:border-emerald-500/50 hover:scale-[1.02]"
+                        }`}
+                      >
+                        {dataTypeInfo.label}
+                      </Button>
+                    );
+                  })}
                 </div>
                 <div className="p-3 rounded-xl bg-primary/5 border border-primary/20">
                   <p className="text-sm text-muted-foreground text-center">
@@ -635,9 +643,21 @@ export default function TrainingsPage() {
                                 </div>
                               )}
                               {training.dataType && (
-                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/5 border border-accent/20">
-                                  <Sparkles className="h-4 w-4 text-accent" />
-                                  <span className="font-medium text-accent">
+                                <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border ${
+                                  training.dataType === "en_he"
+                                    ? "bg-blue-500/10 border-blue-500/20"
+                                    : "bg-emerald-500/10 border-emerald-500/20"
+                                }`}>
+                                  <Sparkles className={`h-4 w-4 ${
+                                    training.dataType === "en_he"
+                                      ? "text-blue-600 dark:text-blue-400"
+                                      : "text-emerald-600 dark:text-emerald-400"
+                                  }`} />
+                                  <span className={`font-medium ${
+                                    training.dataType === "en_he"
+                                      ? "text-blue-600 dark:text-blue-400"
+                                      : "text-emerald-600 dark:text-emerald-400"
+                                  }`}>
                                     {getDataTypeInfo(training.dataType).label}
                                   </span>
                                 </div>
