@@ -95,7 +95,7 @@ export default function HomePage() {
               <Link href="/memorize">
                 <Button
                   size="lg"
-                  className="w-full h-20 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] bg-accent text-accent-foreground border-2 border-accent/20"
+                  className="w-full h-20 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] bg-accent text-accent-foreground border-2 border-accent/20 hover:bg-accent hover:text-accent-foreground"
                 >
                   <BookOpen className="ml-2 h-5 w-5" />
                   שינון מילים
@@ -107,7 +107,7 @@ export default function HomePage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full h-16 text-base font-medium rounded-2xl border-2 hover:bg-secondary/80 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] bg-background/50 backdrop-blur-sm"
+                    className="w-full h-16 text-base font-medium rounded-2xl border-2 hover:bg-secondary/80 hover:text-foreground transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] bg-background/50 backdrop-blur-sm"
                   >
                     <Play className="ml-2 h-5 w-5" />
                     המשך אימון אחרון
