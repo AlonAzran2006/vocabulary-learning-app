@@ -1,4 +1,5 @@
 // Mock data for development mode
+import { DataType, DEFAULT_DATA_TYPE } from "./types";
 
 export interface MockWord {
   id: string;
@@ -12,6 +13,7 @@ export interface MockTraining {
   wordCount: number;
   lastModified: number;
   fileIndexes: number[];
+  dataType?: DataType; // Optional for backward compatibility
 }
 
 // Mock words database
@@ -57,18 +59,21 @@ export const DEFAULT_MOCK_TRAININGS: MockTraining[] = [
     wordCount: 12,
     lastModified: Math.floor(Date.now() / 1000) - 86400, // יום אחד לפני
     fileIndexes: [1, 2],
+    dataType: DEFAULT_DATA_TYPE, // Default to en_he for backward compatibility
   },
   {
     name: "אוצר מילים מתקדם",
     wordCount: 15,
     lastModified: Math.floor(Date.now() / 1000) - 172800, // יומיים לפני
     fileIndexes: [3, 4],
+    dataType: DEFAULT_DATA_TYPE,
   },
   {
     name: "מילים יומיומיות",
     wordCount: 8,
     lastModified: Math.floor(Date.now() / 1000) - 259200, // שלושה ימים לפני
     fileIndexes: [1, 2, 3],
+    dataType: DEFAULT_DATA_TYPE,
   },
 ];
 
@@ -96,7 +101,8 @@ export function saveMockTrainings(trainings: MockTraining[]): void {
 // Add a new training
 export function addMockTraining(
   name: string,
-  fileIndexes: number[]
+  fileIndexes: number[],
+  dataType: DataType = DEFAULT_DATA_TYPE
 ): MockTraining {
   // Count words from selected files
   const wordCount = MOCK_WORDS.filter((w) =>
@@ -108,6 +114,7 @@ export function addMockTraining(
     wordCount,
     lastModified: Math.floor(Date.now() / 1000),
     fileIndexes,
+    dataType,
   };
 
   const trainings = getMockTrainings();
@@ -127,6 +134,7 @@ interface TrainingQueue {
   trainingName: string;
   words: MockWord[];
   currentIndex: number;
+  dataType?: DataType; // Optional for backward compatibility
 }
 
 const TRAINING_QUEUE_KEY = "mock_training_queue";
@@ -134,7 +142,8 @@ const TRAINING_QUEUE_KEY = "mock_training_queue";
 // Initialize training queue
 export function initializeMockTraining(
   trainingName: string,
-  fileIndexes: number[]
+  fileIndexes: number[],
+  dataType: DataType = DEFAULT_DATA_TYPE
 ): {
   first_word: MockWord | null;
   queue_size_remaining: number;
@@ -154,6 +163,7 @@ export function initializeMockTraining(
     trainingName,
     words,
     currentIndex: 0,
+    dataType,
   };
 
   if (typeof window !== "undefined") {

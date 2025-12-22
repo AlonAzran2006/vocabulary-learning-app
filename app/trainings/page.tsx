@@ -22,6 +22,12 @@ import {
   initializeMockTraining,
   type MockTraining,
 } from "@/lib/mock-data";
+import {
+  DataType,
+  DEFAULT_DATA_TYPE,
+  getAllDataTypes,
+  getDataTypeInfo,
+} from "@/lib/types";
 
 interface TrainingListItem {
   name: string;
@@ -38,6 +44,7 @@ interface Training {
   totalItems?: number;
   wordCount?: number;
   lastModified?: number;
+  dataType?: DataType; // Optional for backward compatibility
 }
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -52,6 +59,9 @@ export default function TrainingsPage() {
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const [trainingName, setTrainingName] = useState("");
   const [selectedFileIndexes, setSelectedFileIndexes] = useState<number[]>([]);
+  const [selectedDataType, setSelectedDataType] = useState<DataType>(
+    DEFAULT_DATA_TYPE
+  );
   const { toast } = useToast();
   const router = useRouter();
   const { user } = useAuth();
@@ -169,6 +179,7 @@ export default function TrainingsPage() {
               : new Date().toISOString(),
             wordCount: t.word_count,
             lastModified: t.last_modified,
+            dataType: (t as any).data_type || DEFAULT_DATA_TYPE,
           })
         );
         setTrainings(formattedTrainings);
@@ -203,7 +214,11 @@ export default function TrainingsPage() {
       if (DEV_MODE) {
         // Use mock data in dev mode
         console.log("[v0] Dev mode: Creating mock training");
-        const mockTraining = addMockTraining(trainingName, selectedFileIndexes);
+        const mockTraining = addMockTraining(
+          trainingName,
+          selectedFileIndexes,
+          selectedDataType
+        );
 
         const newTraining: Training = {
           name: mockTraining.name,
@@ -213,12 +228,14 @@ export default function TrainingsPage() {
           totalItems: mockTraining.wordCount,
           wordCount: mockTraining.wordCount,
           lastModified: mockTraining.lastModified,
+          dataType: mockTraining.dataType || DEFAULT_DATA_TYPE,
         };
 
         setTrainings([newTraining, ...trainings]);
         setIsDialogOpen(false);
         setTrainingName("");
         setSelectedFileIndexes([]);
+        setSelectedDataType(DEFAULT_DATA_TYPE);
 
         toast({
           title: "✓ האימון נוצר בהצלחה",
@@ -249,6 +266,7 @@ export default function TrainingsPage() {
           user_uid: userUid,
           training_name: trainingName,
           file_indexes: selectedFileIndexes,
+          data_type: selectedDataType,
         }),
       });
 
@@ -265,12 +283,14 @@ export default function TrainingsPage() {
         totalItems: data.total_items_in_sequence,
         wordCount: data.word_count,
         lastModified: data.last_modified,
+        dataType: selectedDataType,
       };
 
       setTrainings([newTraining, ...trainings]);
       setIsDialogOpen(false);
       setTrainingName("");
       setSelectedFileIndexes([]);
+      setSelectedDataType(DEFAULT_DATA_TYPE);
 
       toast({
         title: "✓ האימון נוצר בהצלחה",
@@ -314,8 +334,10 @@ export default function TrainingsPage() {
         }
 
         // Initialize the training queue
-        initializeMockTraining(trainingName, training.fileIndexes);
+        const dataType = training.dataType || DEFAULT_DATA_TYPE;
+        initializeMockTraining(trainingName, training.fileIndexes, dataType);
         localStorage.setItem("currentTrainingName", trainingName);
+        localStorage.setItem("currentTrainingDataType", dataType);
 
         toast({
           title: "✓ האימון נטען בהצלחה",
@@ -349,7 +371,12 @@ export default function TrainingsPage() {
       if (!response.ok)
         throw new Error(data.error || "Failed to load training");
 
+      // Get dataType from training object if available, or from response
+      const training = trainings.find((t) => t.name === trainingName);
+      const dataType = training?.dataType || data.data_type || DEFAULT_DATA_TYPE;
+
       localStorage.setItem("currentTrainingName", trainingName);
+      localStorage.setItem("currentTrainingDataType", dataType);
 
       toast({
         title: "✓ האימון נטען בהצלחה",
@@ -422,6 +449,26 @@ export default function TrainingsPage() {
                   className="h-12 text-base rounded-lg"
                   dir="rtl"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-base">שפה:</Label>
+                <div className="flex gap-4">
+                  {getAllDataTypes().map((dataTypeInfo) => (
+                    <Button
+                      key={dataTypeInfo.code}
+                      type="button"
+                      variant={selectedDataType === dataTypeInfo.code ? "default" : "outline"}
+                      onClick={() => setSelectedDataType(dataTypeInfo.code)}
+                      className="flex-1 h-14 text-base rounded-xl"
+                    >
+                      {dataTypeInfo.label}
+                    </Button>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground text-center">
+                  {getDataTypeInfo(selectedDataType).description}
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -512,6 +559,8 @@ export default function TrainingsPage() {
                         </h3>
                         <p className="text-sm text-muted-foreground">
                           {training.wordCount && `${training.wordCount} מילים`}
+                          {training.dataType &&
+                            ` • ${getDataTypeInfo(training.dataType).label}`}
                           {training.lastModified &&
                             ` • ${new Date(
                               training.lastModified * 1000

@@ -26,6 +26,7 @@ import {
   clearMockTrainingQueue,
   getMockTrainings,
 } from "@/lib/mock-data";
+import { DataType, DEFAULT_DATA_TYPE } from "@/lib/types";
 import {
   initializeTrainingQueue,
   submitGrade,
@@ -139,9 +140,17 @@ export default function TrainingPage() {
           throw new Error("אימון לא נמצא");
         }
 
+        // Get dataType from localStorage or use training's dataType or default
+        const storedDataType = localStorage.getItem("currentTrainingDataType");
+        const dataType: DataType =
+          (storedDataType as DataType) ||
+          training.dataType ||
+          DEFAULT_DATA_TYPE;
+
         const result = initializeMockTraining(
           trainingName,
-          training.fileIndexes
+          training.fileIndexes,
+          dataType
         );
         if (result.training_complete) {
           setIsCompleted(true);

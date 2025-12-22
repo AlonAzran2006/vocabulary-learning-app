@@ -11,12 +11,13 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { DataType, DEFAULT_DATA_TYPE } from "@/lib/types";
 
 interface Word {
   id: string;
@@ -29,10 +30,17 @@ type FilterType = "known" | "partial" | "unknown" | "unclassified";
 
 export default function MemorizeUnitPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
   const { user } = useAuth();
   const unit = Number.parseInt(params.unit as string);
+  
+  // Get data_type from URL query or localStorage, default to en_he
+  const dataType: DataType = (searchParams.get("data_type") as DataType) || 
+    (typeof window !== "undefined" 
+      ? (localStorage.getItem("memorizeDataType") as DataType) || DEFAULT_DATA_TYPE
+      : DEFAULT_DATA_TYPE);
 
   const [words, setWords] = useState<Word[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,7 +53,7 @@ export default function MemorizeUnitPage() {
 
   useEffect(() => {
     loadUnit();
-  }, [unit]);
+  }, [unit, dataType]);
 
   const loadUnit = async () => {
     try {
@@ -60,7 +68,11 @@ export default function MemorizeUnitPage() {
       const response = await fetch("/api/proxy/memorize_unit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_uid: userUid, file_index: unit }),
+        body: JSON.stringify({ 
+          user_uid: userUid, 
+          file_index: unit,
+          data_type: dataType,
+        }),
       });
 
       if (!response.ok) {
