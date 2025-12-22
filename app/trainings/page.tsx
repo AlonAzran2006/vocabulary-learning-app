@@ -70,58 +70,68 @@ export default function TrainingsPage() {
     loadExistingTrainings();
   }, []);
 
-  // Generate training name based on selected units
-  const generateTrainingName = (indexes: number[]): string => {
+  // Generate training name based on selected units, language, and date
+  const generateTrainingName = (indexes: number[], dataType: DataType): string => {
     if (indexes.length === 0) {
       return "";
     }
 
+    // Get language label
+    const languageLabel = getDataTypeInfo(dataType).label;
+
     // Sort the indexes
     const sorted = [...indexes].sort((a, b) => a - b);
 
-    // Single unit
+    // Generate units part
+    let unitsPart: string;
     if (sorted.length === 1) {
-      return `יחידה ${sorted[0]}`;
+      unitsPart = `יחידה ${sorted[0]}`;
+    } else {
+      // Find consecutive ranges
+      const ranges: Array<{ start: number; end: number }> = [];
+      let start = sorted[0];
+      let end = sorted[0];
+
+      for (let i = 1; i < sorted.length; i++) {
+        if (sorted[i] === end + 1) {
+          // Consecutive, extend the range
+          end = sorted[i];
+        } else {
+          // Break in sequence, save current range
+          ranges.push({ start, end });
+          start = sorted[i];
+          end = sorted[i];
+        }
+      }
+      ranges.push({ start, end });
+
+      // Format ranges
+      const parts = ranges.map((range) => {
+        if (range.start === range.end) {
+          return `${range.start}`;
+        } else {
+          return `${range.start}-${range.end}`;
+        }
+      });
+
+      unitsPart = `יחידות ${parts.join(",")}`;
     }
 
-    // Find consecutive ranges
-    const ranges: Array<{ start: number; end: number }> = [];
-    let start = sorted[0];
-    let end = sorted[0];
+    // Get current date in Hebrew format
+    const datePart = new Date().toLocaleDateString("he-IL");
 
-    for (let i = 1; i < sorted.length; i++) {
-      if (sorted[i] === end + 1) {
-        // Consecutive, extend the range
-        end = sorted[i];
-      } else {
-        // Break in sequence, save current range
-        ranges.push({ start, end });
-        start = sorted[i];
-        end = sorted[i];
-      }
-    }
-    ranges.push({ start, end });
-
-    // Format ranges
-    const parts = ranges.map((range) => {
-      if (range.start === range.end) {
-        return `${range.start}`;
-      } else {
-        return `${range.start}-${range.end}`;
-      }
-    });
-
-    return `יחידות ${parts.join(",")}`;
+    // Combine: שפה + יחידות + תאריך
+    return `${languageLabel} - ${unitsPart} - ${datePart}`;
   };
 
-  // Update training name when selected units change
+  // Update training name when selected units, language, or dialog state change
   useEffect(() => {
     if (isDialogOpen && selectedFileIndexes.length > 0) {
-      setTrainingName(generateTrainingName(selectedFileIndexes));
+      setTrainingName(generateTrainingName(selectedFileIndexes, selectedDataType));
     } else if (isDialogOpen && selectedFileIndexes.length === 0) {
       setTrainingName("");
     }
-  }, [selectedFileIndexes, isDialogOpen]);
+  }, [selectedFileIndexes, selectedDataType, isDialogOpen]);
 
   const loadExistingTrainings = async () => {
     try {

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "@/components/ui/toaster";
-import { ServerKeepAlive } from "@/components/server-keep-alive";
 import { AuthProvider } from "@/contexts/auth-context";
 import "./globals.css";
 
@@ -47,7 +46,6 @@ export default function RootLayout({
           {children}
           <Toaster />
           <Analytics />
-          <ServerKeepAlive />
         </AuthProvider>
       </body>
     </html>

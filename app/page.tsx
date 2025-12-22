@@ -43,10 +43,15 @@ export default function HomePage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary p-4"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/50 to-background p-4 relative overflow-hidden"
       dir="rtl"
     >
-      <div className="absolute top-4 left-4">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
+      </div>
+      <div className="absolute top-4 left-4 z-10">
         {!loading &&
           (user ? (
             <UserMenu />
@@ -60,13 +65,15 @@ export default function HomePage() {
           ))}
       </div>
 
-      <div className="w-full max-w-md space-y-8 animate-fade-in">
+      <div className="w-full max-w-md space-y-10 animate-fade-in relative z-10">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-            אוצר מילים
+        <div className="text-center space-y-4">
+          <h1 className="text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent drop-shadow-lg tracking-tight animate-gradient">
+            PsychoVocab
           </h1>
-          <p className="text-lg text-muted-foreground">למידת אנגלית</p>
+          <p className="text-xl md:text-2xl font-semibold text-foreground/90 tracking-wide">
+            לימוד מילים לפסיכומטרי
+          </p>
         </div>
 
         {loading ? (
@@ -74,11 +81,11 @@ export default function HomePage() {
         ) : user ? (
           <>
             {/* Action Buttons */}
-            <div className="space-y-4">
+            <div className="space-y-5">
               <Link href="/trainings">
                 <Button
                   size="lg"
-                  className="w-full h-16 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] bg-primary text-primary-foreground"
+                  className="w-full h-20 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] bg-primary text-primary-foreground border-2 border-primary/20"
                 >
                   <Plus className="ml-2 h-5 w-5" />
                   התחל/צור אימון
@@ -88,7 +95,7 @@ export default function HomePage() {
               <Link href="/memorize">
                 <Button
                   size="lg"
-                  className="w-full h-16 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] bg-accent text-accent-foreground"
+                  className="w-full h-20 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] bg-accent text-accent-foreground border-2 border-accent/20"
                 >
                   <BookOpen className="ml-2 h-5 w-5" />
                   שינון מילים
@@ -100,7 +107,7 @@ export default function HomePage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full h-14 text-base rounded-xl border-2 hover:bg-secondary transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] bg-transparent"
+                    className="w-full h-16 text-base font-medium rounded-2xl border-2 hover:bg-secondary/80 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] bg-background/50 backdrop-blur-sm"
                   >
                     <Play className="ml-2 h-5 w-5" />
                     המשך אימון אחרון
@@ -110,17 +117,17 @@ export default function HomePage() {
             </div>
 
             {/* Footer hint */}
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-center text-sm font-medium text-muted-foreground/80">
               בחר באפשרות כדי להתחיל
             </p>
           </>
         ) : (
-          <div className="text-center space-y-4">
-            <p className="text-muted-foreground">
+          <div className="text-center space-y-6">
+            <p className="text-base font-medium text-muted-foreground/90">
               יש להתחבר כדי להשתמש באפליקציה
             </p>
             <Link href="/login">
-              <Button size="lg" className="w-full h-14 rounded-xl">
+              <Button size="lg" className="w-full h-16 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]">
                 <LogIn className="ml-2 h-5 w-5" />
                 התחבר עם Google
               </Button>
