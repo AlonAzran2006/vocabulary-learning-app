@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
-import { Plus, Play, Loader2 } from "lucide-react";
+import { Plus, Play, Loader2, ArrowRight, Home, Dumbbell, Calendar, FileText, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   getMockTrainings,
@@ -409,46 +409,71 @@ export default function TrainingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-        {/* Header */}
-        <div className="text-center space-y-2 py-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-            האימונים שלי
-          </h1>
-          <p className="text-muted-foreground">
-            צור אימון חדש או המשך אימון קיים
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/30 to-background p-4 md:p-8 relative overflow-hidden" dir="rtl">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
+      </div>
 
-        <Button
-          onClick={() => router.push("/")}
-          variant="outline"
-          className="h-12 px-6 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-transform"
-        >
-          ← חזרה למסך הראשי
-        </Button>
+      <div className="max-w-5xl mx-auto space-y-8 animate-fade-in relative z-10">
+        {/* Header */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 border-2 border-primary/20 shadow-lg">
+                <Dumbbell className="h-8 w-8 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-4xl md:text-5xl font-extrabold text-foreground bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 bg-clip-text tracking-tight">
+                  האימונים שלי
+                </h1>
+                <p className="text-muted-foreground mt-2 text-lg">
+                  צור אימון חדש או המשך אימון קיים
+                </p>
+              </div>
+            </div>
+            <Button
+              onClick={() => router.push("/")}
+              variant="outline"
+              size="icon"
+              className="h-12 w-12 rounded-xl hover:scale-110 active:scale-95 transition-all duration-200 border-2 shadow-sm hover:shadow-md"
+            >
+              <Home className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
 
         {/* Create New Training Button */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button
               size="lg"
-              className="w-full h-16 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] bg-primary text-primary-foreground"
+              className="w-full h-20 text-xl font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-primary to-primary/90 text-primary-foreground border-2 border-primary/20 hover:border-primary/40"
             >
-              <Plus className="ml-2 h-6 w-6" />
-              יצירת אימון חדש
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-primary-foreground/20">
+                  <Plus className="h-6 w-6" />
+                </div>
+                <span>יצירת אימון חדש</span>
+              </div>
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md animate-scale-in" dir="rtl">
-            <DialogHeader>
-              <DialogTitle className="text-2xl text-center">
-                אימון חדש
-              </DialogTitle>
+          <DialogContent className="sm:max-w-lg animate-scale-in shadow-2xl border-2" dir="rtl">
+            <DialogHeader className="space-y-3 pb-4">
+              <div className="flex items-center justify-center gap-3">
+                <div className="p-2 rounded-xl bg-primary/10">
+                  <Sparkles className="h-6 w-6 text-primary" />
+                </div>
+                <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+                  אימון חדש
+                </DialogTitle>
+              </div>
             </DialogHeader>
             <div className="space-y-6 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-base">
+              <div className="space-y-3">
+                <Label htmlFor="name" className="text-base font-semibold flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-primary" />
                   שם האימון
                 </Label>
                 <Input
@@ -456,34 +481,46 @@ export default function TrainingsPage() {
                   placeholder="למשל: מילים באנגלית - רמה 1"
                   value={trainingName}
                   onChange={(e) => setTrainingName(e.target.value)}
-                  className="h-12 text-base rounded-lg"
+                  className="h-14 text-base rounded-xl border-2 focus:border-primary transition-all"
                   dir="rtl"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-base">שפה:</Label>
-                <div className="flex gap-4">
+              <div className="space-y-3">
+                <Label className="text-base font-semibold flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  שפה
+                </Label>
+                <div className="grid grid-cols-2 gap-3">
                   {getAllDataTypes().map((dataTypeInfo) => (
                     <Button
                       key={dataTypeInfo.code}
                       type="button"
                       variant={selectedDataType === dataTypeInfo.code ? "default" : "outline"}
                       onClick={() => setSelectedDataType(dataTypeInfo.code)}
-                      className="flex-1 h-14 text-base rounded-xl"
+                      className={`h-16 text-base rounded-xl font-semibold transition-all ${
+                        selectedDataType === dataTypeInfo.code
+                          ? "shadow-lg scale-[1.02] ring-2 ring-primary/50"
+                          : "hover:scale-[1.02] border-2"
+                      }`}
                     >
                       {dataTypeInfo.label}
                     </Button>
                   ))}
                 </div>
-                <p className="text-xs text-muted-foreground text-center">
-                  {getDataTypeInfo(selectedDataType).description}
-                </p>
+                <div className="p-3 rounded-xl bg-primary/5 border border-primary/20">
+                  <p className="text-sm text-muted-foreground text-center">
+                    {getDataTypeInfo(selectedDataType).description}
+                  </p>
+                </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label className="text-base">בחירת יחידות מקור (1-10)</Label>
+                <Label className="text-base font-semibold flex items-center gap-2">
+                  <Dumbbell className="h-4 w-4 text-primary" />
+                  בחירת יחידות מקור (1-10)
+                </Label>
                   <Button
                     type="button"
                     variant="outline"
@@ -495,46 +532,55 @@ export default function TrainingsPage() {
                         setSelectedFileIndexes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
                       }
                     }}
-                    className="h-8 text-xs"
+                    className="h-9 text-xs rounded-lg border-2 hover:scale-105 transition-transform"
                   >
                     {selectedFileIndexes.length === 10
                       ? "ביטול הכל"
                       : "בחר הכל"}
                   </Button>
                 </div>
-                <div className="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto">
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                    <label
-                      key={num}
-                      className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:bg-secondary transition-colors"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedFileIndexes.includes(num)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedFileIndexes([
-                              ...selectedFileIndexes,
-                              num,
-                            ]);
-                          } else {
-                            setSelectedFileIndexes(
-                              selectedFileIndexes.filter((f) => f !== num)
-                            );
-                          }
-                        }}
-                        className="w-4 h-4"
-                      />
-                      <span className="text-sm">יחידה {num}</span>
-                    </label>
-                  ))}
+                <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto p-1">
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => {
+                    const isSelected = selectedFileIndexes.includes(num);
+                    return (
+                      <label
+                        key={num}
+                        className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer transition-all border-2 ${
+                          isSelected
+                            ? "bg-primary/10 border-primary shadow-md scale-[1.02]"
+                            : "border-border hover:bg-secondary hover:border-primary/50 hover:scale-[1.01]"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedFileIndexes([
+                                ...selectedFileIndexes,
+                                num,
+                              ]);
+                            } else {
+                              setSelectedFileIndexes(
+                                selectedFileIndexes.filter((f) => f !== num)
+                              );
+                            }
+                          }}
+                          className="w-5 h-5 rounded border-2 cursor-pointer"
+                        />
+                        <span className={`text-sm font-medium ${isSelected ? "text-primary font-semibold" : "text-foreground"}`}>
+                          יחידה {num}
+                        </span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
 
               <Button
                 onClick={handleCreateTraining}
                 disabled={isCreating}
-                className="w-full h-12 text-base rounded-lg hover:scale-[1.02] active:scale-[0.98] transition-transform"
+                className="w-full h-14 text-lg font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl disabled:opacity-50"
               >
                 {isCreating ? (
                   <>
@@ -542,7 +588,10 @@ export default function TrainingsPage() {
                     יוצר אימון...
                   </>
                 ) : (
-                  "צור אימון"
+                  <>
+                    <Plus className="ml-2 h-5 w-5" />
+                    צור אימון
+                  </>
                 )}
               </Button>
             </div>
@@ -551,36 +600,66 @@ export default function TrainingsPage() {
 
         {/* Previous Trainings */}
         {trainings.length > 0 && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-foreground">
-              אימונים קודמים
-            </h2>
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent rounded-full"></div>
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+                אימונים קודמים
+              </h2>
+            </div>
             <div className="grid gap-4">
-              {trainings.map((training) => (
+              {trainings.map((training, index) => (
                 <Card
                   key={training.name}
-                  className="overflow-hidden hover:shadow-lg transition-shadow"
+                  className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30 hover:scale-[1.01] group"
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <CardContent className="p-6">
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex-1 space-y-1">
-                        <h3 className="font-semibold text-lg text-foreground">
-                          {training.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {training.wordCount && `${training.wordCount} מילים`}
-                          {training.dataType &&
-                            ` • ${getDataTypeInfo(training.dataType).label}`}
-                          {training.lastModified &&
-                            ` • ${new Date(
-                              training.lastModified * 1000
-                            ).toLocaleDateString("he-IL")}`}
-                        </p>
+                    <div className="flex items-center justify-between gap-6">
+                      <div className="flex-1 space-y-3">
+                        <div className="flex items-start gap-3">
+                          <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                            <Dumbbell className="h-5 w-5 text-primary" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-bold text-xl text-foreground mb-2">
+                              {training.name}
+                            </h3>
+                            <div className="flex flex-wrap items-center gap-3 text-sm">
+                              {training.wordCount && (
+                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/5 border border-primary/20">
+                                  <FileText className="h-4 w-4 text-primary" />
+                                  <span className="font-semibold text-primary">
+                                    {training.wordCount} מילים
+                                  </span>
+                                </div>
+                              )}
+                              {training.dataType && (
+                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/5 border border-accent/20">
+                                  <Sparkles className="h-4 w-4 text-accent" />
+                                  <span className="font-medium text-accent">
+                                    {getDataTypeInfo(training.dataType).label}
+                                  </span>
+                                </div>
+                              )}
+                              {training.lastModified && (
+                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary border border-border">
+                                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                                  <span className="text-muted-foreground">
+                                    {new Date(
+                                      training.lastModified * 1000
+                                    ).toLocaleDateString("he-IL")}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <Button
                         onClick={() => handleLoadTraining(training.name)}
                         disabled={isLoading === training.name}
-                        className="h-12 px-6 rounded-lg hover:scale-[1.02] active:scale-[0.98] transition-transform"
+                        className="h-14 px-8 rounded-xl hover:scale-110 active:scale-95 transition-all duration-200 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl font-semibold min-w-[120px]"
                       >
                         {isLoading === training.name ? (
                           <Loader2 className="h-5 w-5 animate-spin" />
@@ -600,10 +679,22 @@ export default function TrainingsPage() {
         )}
 
         {trainings.length === 0 && (
-          <Card className="p-12 text-center">
-            <p className="text-muted-foreground">
-              עדיין אין אימונים. צור אימון חדש כדי להתחיל!
-            </p>
+          <Card className="p-16 text-center border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
+            <CardContent className="space-y-4">
+              <div className="flex justify-center">
+                <div className="p-4 rounded-2xl bg-primary/10">
+                  <Dumbbell className="h-12 w-12 text-primary" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-bold text-foreground">
+                  עדיין אין אימונים
+                </h3>
+                <p className="text-muted-foreground text-lg">
+                  צור אימון חדש כדי להתחיל את המסע שלך!
+                </p>
+              </div>
+            </CardContent>
           </Card>
         )}
       </div>
